@@ -13,3 +13,5 @@
 /Zapos.Constructors.Razor/bin
 /Zapos.Constructors.Razor.Tests/obj
 /Zapos.Constructors.Razor.Tests/bin
+
+/Zapos.Constructors.Razor.Tests/*.Cache

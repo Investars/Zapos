@@ -20,9 +20,41 @@ namespace Zapos.Printers.Gembox
             var ef = new ExcelFile();
             var ws = ef.Worksheets.Add("Report");
 
-            //AutoFit(ref ws, 4);
-            PrintHead(ref ws, table.Head.Rows.ToList());
-            PrintBody(ref ws, table.Body.Rows.ToList(), table.Head.Rows.Count());
+            if (table.Head != null)
+            {
+                var rowsHeight = CalculateRowsHeight(table.Head.Rows, table.Body.Rows);
+                var columnsWidth = CalculateColumnsWidth(table.Head.Rows, table.Body.Rows);
+
+                for (var index = 0; index < columnsWidth.Length; index++)
+                {
+                    ws.Columns[index].Width = columnsWidth[index] * 256;
+                }
+
+                for (var index = 0; index < rowsHeight.Length; index++)
+                {
+                    ws.Rows[index].Height = rowsHeight[index] * 256;
+                }
+
+                PrintSection(ref ws, table.Head.Rows);
+                PrintSection(ref ws, table.Body.Rows, table.Head.Rows.Length);
+            }
+            else
+            {
+                var rowsHeight = CalculateRowsHeight(table.Body.Rows);
+                var columnsWidth = CalculateColumnsWidth(table.Body.Rows);
+
+                for (var index = 0; index < columnsWidth.Length; index++)
+                {
+                    ws.Columns[index].Width = columnsWidth[index] * 256;
+                }
+
+                for (var index = 0; index < rowsHeight.Length; index++)
+                {
+                    ws.Rows[index].Height = rowsHeight[index];
+                }
+
+                PrintSection(ref ws, table.Body.Rows);
+            }
 
             var stream = new MemoryStream();
             ef.Save(stream, SaveOptions.PdfDefault);
@@ -32,30 +64,46 @@ namespace Zapos.Printers.Gembox
             return stream;
         }
 
-        private void AutoFit(ref ExcelWorksheet ws, int columnCount)
+        private static int[] CalculateColumnsWidth(params TableRow[][] rowsCollections)
         {
-            for (var i = 0; i < columnCount; i++)
-            {
-                ws.Columns[i].AutoFit();
-            }
+            var rows = rowsCollections.SelectMany(collection => collection).ToArray();
+
+            var columnCount = rows.Max(row => row.Cells.Length);
+
+            var parallelRows = rows.AsParallel();
+
+            var result = Enumerable
+                            .Range(0, columnCount - 1)
+                            .Select(index => parallelRows.Max(row =>
+                                {
+                                    try
+                                    {
+                                        return row.Cells[index].Style.Style.Width;
+                                    }
+                                    catch (System.IndexOutOfRangeException)
+                                    {
+                                        return 0;
+                                    }
+                                }))
+                            .ToArray();
+
+            return result;
         }
 
-        private void PrintBody(ref ExcelWorksheet ws, IEnumerable<TableRow> rows, int headRow)
+        private static int[] CalculateRowsHeight(params TableRow[][] rowsCollections)
         {
-            PrintSection(ref ws, rows, headRow);
+            var rows = rowsCollections.SelectMany(collection => collection).ToArray();
+            var result = rows.Select(row => row.Cells.AsParallel().Max(cell => (int)cell.Style.Style.Height)).ToArray();
+
+            return result;
         }
 
-        private void PrintHead(ref ExcelWorksheet ws, IEnumerable<TableRow> rows)
-        {
-            PrintSection(ref ws, rows, 0);
-        }
-
-        private void PrintSection(ref ExcelWorksheet ws, IEnumerable<TableRow> rows, int rowBegin)
+        private static void PrintSection(ref ExcelWorksheet ws, IEnumerable<TableRow> rows, int rowBegin = 0)
         {
             var rowsInternal = rows.ToArray();
 
             var rowBeginPosition = rowBegin;
-            var columnBeginPosition = 0;
+            const int columnBeginPosition = 0;
 
             for (var rowIndex = 0; rowIndex < rowsInternal.Length; rowIndex++)
             {

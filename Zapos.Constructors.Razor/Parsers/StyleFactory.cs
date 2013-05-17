@@ -80,7 +80,7 @@ namespace Zapos.Constructors.Razor.Parsers
                     Color = new InheritStyle<Color>(Color.Black),
                     FontSize = new InheritStyle<ushort>(14),
                     HAlign = new InheritStyle<HAlign>(HAlign.Left),
-                    Height = new InheritStyle<ushort>(10),
+                    Height = new InheritStyle<ushort>(20),
                     VAlign = new InheritStyle<VAlign>(VAlign.Bottom),
                     Width = new InheritStyle<ushort>(50),
                 };
