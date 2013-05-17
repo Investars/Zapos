@@ -5,3 +5,11 @@
 /Zapos.Printers.Gembox.Tests/obj
 /Zapos.Printers.Gembox/obj
 /Zapos.Printers.Gembox/bin
+/Zapos.Common/bin
+/Zapos.Common/obj
+/Zapos.Common/*.user
+/Zapos.Common/*.Cache
+/Zapos.Constructors.Razor/obj
+/Zapos.Constructors.Razor/bin
+/Zapos.Constructors.Razor.Tests/obj
+/Zapos.Constructors.Razor.Tests/bin
