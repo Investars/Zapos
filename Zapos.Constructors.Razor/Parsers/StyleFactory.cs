@@ -10,8 +10,6 @@ namespace Zapos.Constructors.Razor.Parsers
 {
     public class StyleFactory
     {
-        private delegate void  ConvertStyle(ref BaseStyle baseStyle, Declaration declaration);
-
         private readonly Dictionary<string, ConvertStyle> _styleConverters =
             new Dictionary<string, ConvertStyle>
             {
@@ -55,38 +53,41 @@ namespace Zapos.Constructors.Razor.Parsers
             Style = copyOfStyle;
         }
 
-        public BaseStyle Style { get; private set; }
+        private delegate void ConvertStyle(ref BaseStyle baseStyle, Declaration declaration);
 
         public static BaseStyle DefaultStyle
         {
             get
             {
                 return new BaseStyle
-                    {
-                        Id = Guid.Parse("220B1E42-DE05-463D-B322-23D9F26F16A3"),
-                        Font = "Times New Roman",
-                        BackgroundColor = Color.White,
-                        BorderBottomColor = Color.Black,
-                        BorderBottomStyle = BorderStyle.Solid,
-                        BorderBottomWidth = (ushort)1,
-                        BorderLeftColor = Color.Black,
-                        BorderLeftStyle = BorderStyle.Solid,
-                        BorderLeftWidth = (ushort)1,
-                        BorderRightColor = Color.Black,
-                        BorderRightStyle = BorderStyle.Solid,
-                        BorderRightWidth = (ushort)1,
-                        BorderTopColor = Color.Black,
-                        BorderTopStyle = BorderStyle.Solid,
-                        BorderTopWidth = (ushort)1,
-                        Color = Color.Black,
-                        FontSize = (ushort)14,
-                        HAlign = HAlign.Left,
-                        Height = (ushort)10,
-                        VAlign = VAlign.Bottom,
-                        Width = (ushort)50
-                    };
+                {
+                    Id = Guid.Parse("220B1E42-DE05-463D-B322-23D9F26F16A3"),
+
+                    Font = new InheritStyle<string>("Times New Roman"),
+                    BackgroundColor = new InheritStyle<Color>(Color.White),
+                    BorderBottomColor = new InheritStyle<Color>(Color.Black),
+                    BorderBottomStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
+                    BorderBottomWidth = new InheritStyle<ushort>(1),
+                    BorderLeftColor = new InheritStyle<Color>(Color.Black),
+                    BorderLeftStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
+                    BorderLeftWidth = new InheritStyle<ushort>(1),
+                    BorderRightColor = new InheritStyle<Color>(Color.Black),
+                    BorderRightStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
+                    BorderRightWidth = new InheritStyle<ushort>(1),
+                    BorderTopColor = new InheritStyle<Color>(Color.Black),
+                    BorderTopStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
+                    BorderTopWidth = new InheritStyle<ushort>(1),
+                    Color = new InheritStyle<Color>(Color.Black),
+                    FontSize = new InheritStyle<ushort>(14),
+                    HAlign = new InheritStyle<HAlign>(HAlign.Left),
+                    Height = new InheritStyle<ushort>(10),
+                    VAlign = new InheritStyle<VAlign>(VAlign.Bottom),
+                    Width = new InheritStyle<ushort>(50),
+                };
             }
         }
+
+        public BaseStyle Style { get; private set; }
 
         public static BaseStyle MergeStyles(BaseStyle style, IEnumerable<BaseStyle> children)
         {
@@ -258,7 +259,6 @@ namespace Zapos.Constructors.Razor.Parsers
             }
 
             return baseStyle;
-
         }
     }
 }

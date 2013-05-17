@@ -1,5 +1,5 @@
 ﻿using System;
-using ExCSS.Model;
+
 using Zapos.Common.Styles;
 
 namespace Zapos.Constructors.Razor.Extensions
@@ -38,12 +38,12 @@ namespace Zapos.Constructors.Razor.Extensions
             }
         }
 
-        public static BorderStyle? ParseBorderStyle(string value)
+        public static BorderStyle ParseBorderStyle(string value)
         {
             switch (value)
             {
                 case "none":
-                    return null;
+                    return BorderStyle.None;
                 case "dotted":
                     return BorderStyle.Dotted;
                 case "dashed":

@@ -36,7 +36,7 @@ namespace Zapos.Constructors.Razor.Parsers
 
         public static void BackgroundColorConverter(ref BaseStyle style, Declaration declaration)
         {
-            Color backgroundColor = declaration.Expression.Terms.First().ToColor();
+            var backgroundColor = declaration.Expression.Terms.First().ToColor();
             style.BackgroundColor = backgroundColor;
         }
 

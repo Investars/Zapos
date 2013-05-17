@@ -49,14 +49,12 @@ namespace Zapos.Constructors.Razor.Constructors
 
         private static IEnumerable<BaseStyle> GetStylesByClasses(IEnumerable<KeyValuePair<string, BaseStyle>> classes, XAttribute attrClass)
         {
-            return attrClass
-                .Value
-                .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
-                .Join(
-                    classes,
-                    s => s,
-                    s => s.Key,
-                    (s, cssClass) => cssClass.Value);
+            var ownClasses = attrClass.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // TODO: Optimize.
+            var result = classes.Where(cl => ownClasses.Any(oc => oc.Equals(cl.Key))).Select(cl => cl.Value);
+
+            return result;
         }
 
         private static Table ParseTable(XElement tableTag, IDictionary<string, BaseStyle> classes)
@@ -101,7 +99,7 @@ namespace Zapos.Constructors.Razor.Constructors
             BaseStyle tablestyle,
             IDictionary<string, BaseStyle> classes)
         {
-            BaseStyle theadStyle = StyleFactory.DefaultStyle;
+            var theadStyle = StyleFactory.DefaultStyle;
             var attrClass = tableHeadTag.Attributes("class").FirstOrDefault();
             if (attrClass != null)
             {
@@ -125,7 +123,7 @@ namespace Zapos.Constructors.Razor.Constructors
             BaseStyle tablestyle,
             IDictionary<string, BaseStyle> classes)
         {
-            BaseStyle tbodyStyle = StyleFactory.DefaultStyle;
+            var tbodyStyle = StyleFactory.DefaultStyle;
             var attrClass = tableBodyTag.Attributes("class").FirstOrDefault();
             if (attrClass != null)
             {
@@ -173,7 +171,7 @@ namespace Zapos.Constructors.Razor.Constructors
             BaseStyle tbodyStyle,
             IDictionary<string, BaseStyle> classes)
         {
-            BaseStyle rowStyle = StyleFactory.DefaultStyle;
+            var rowStyle = StyleFactory.DefaultStyle;
             var attrClass = tableBodyRowTag.Attributes("class").FirstOrDefault();
             if (attrClass != null)
             {
@@ -197,12 +195,13 @@ namespace Zapos.Constructors.Razor.Constructors
             BaseStyle rowStyle,
             IEnumerable<KeyValuePair<string, BaseStyle>> classes)
         {
-            BaseStyle cellStyle = StyleFactory.DefaultStyle;
+            var cellStyle = StyleFactory.DefaultStyle;
             var attrClass = cellTag.Attributes("class").FirstOrDefault();
             if (attrClass != null)
             {
-                var tbodyClasses = GetStylesByClasses(classes, attrClass);
-                cellStyle = StyleFactory.MergeStyles(rowStyle, tbodyClasses);
+                var cellClasses = GetStylesByClasses(classes, attrClass);
+                var test = cellClasses.ToArray();
+                cellStyle = StyleFactory.MergeStyles(rowStyle, test);
             }
 
             string formula = null;

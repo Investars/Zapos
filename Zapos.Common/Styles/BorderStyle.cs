@@ -6,5 +6,6 @@
         Dashed,
         Solid,
         Double,
+        None
     }
 }

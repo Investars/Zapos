@@ -15,9 +15,9 @@ namespace Zapos.Constructors.Razor.Parsers
             var styles = parser.Parse(content);
             var rules = styles.RuleSets.ToArray();
 
-            return rules.ToDictionary(
-                rule => rule.Selectors.First().SimpleSelectors.First().Class,
-                rule => new StyleFactory(rule.Declarations).Style);
+            var result = rules.ToDictionary(rule => rule.Selectors.First().SimpleSelectors.First().Class, rule => new StyleFactory(rule.Declarations).Style);
+
+            return result;
         }
     }
 }
