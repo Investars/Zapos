@@ -114,7 +114,7 @@ namespace Zapos.Constructors.Razor.Constructors
             var thead = new TableHead
                 {
                     Style = theadStyle,
-                    Rows = rows
+                    Rows = rows.ToArray()
                 };
 
             return thead;
@@ -138,7 +138,7 @@ namespace Zapos.Constructors.Razor.Constructors
             var tbody = new TableBody
             {
                 Style = tbodyStyle,
-                Rows = rows
+                Rows = rows.ToArray()
             };
 
             return tbody;
@@ -162,7 +162,7 @@ namespace Zapos.Constructors.Razor.Constructors
             var tableRow = new TableRow
             {
                 Style = rowStyle,
-                Cells = cells
+                Cells = cells.ToArray()
             };
 
             return tableRow;
@@ -186,7 +186,7 @@ namespace Zapos.Constructors.Razor.Constructors
             var tableRow = new TableRow
             {
                 Style = rowStyle,
-                Cells = cells
+                Cells = cells.ToArray()
             };
 
             return tableRow;
