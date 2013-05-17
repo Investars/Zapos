@@ -1,0 +1,7 @@
+/packages
+/*.user
+/*.suo
+/Zapos.Printers.Gembox.Tests/bin
+/Zapos.Printers.Gembox.Tests/obj
+/Zapos.Printers.Gembox/obj
+/Zapos.Printers.Gembox/bin

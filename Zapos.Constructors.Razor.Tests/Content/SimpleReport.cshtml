@@ -1,0 +1,43 @@
+﻿@using Zapos.Constructors.Razor.Tests.TestModels
+@model TestReportModel
+
+<style>
+    .head {
+        font-size: 28pt;
+        text-align: center;
+    }
+    .odd { background-color: #c8d197; }
+    .value {
+        text-decoration: underline;
+        font-style: italic;
+        text-align: center;
+    }
+    .name {
+        text-align: left;
+        color: #eb2138;
+        font-weight: bold;
+    }
+</style>
+ 
+<table>
+    <thead class="head">
+        <tr>
+            <th style="width: 50px">Id</th>
+            <th style="width: 100px">Name</th>
+            <th class="value" style="width: 80px">Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var index = 1; }
+        @foreach (var item in Model.Items)
+        {
+            <tr class='@(index % 2 == 0 ? "" : "odd")'>
+                <td>@item.Id</td>
+                <td class="name">@item.Name</td>
+                <td class="value">@item.Value</td>
+            </tr>
+
+            index++;
+        }
+    </tbody>
+</table>
