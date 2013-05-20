@@ -11,7 +11,7 @@
         public InheritStyle(T baseValue)
         {
             _baseValue = baseValue;
-            _value = default(T);
+            _value = baseValue;
             _isBase = true;
         }
 
@@ -26,11 +26,6 @@
         {
             get
             {
-                if (IsBase)
-                {
-                    return _baseValue;
-                }
-
                 return _value;
             }
 
@@ -68,7 +63,7 @@
 
         public static implicit operator T(InheritStyle<T> x)
         {
-            return x.Value;
+            return x._value;
         }
 
         public static implicit operator InheritStyle<T>(T x)
@@ -78,7 +73,7 @@
 
         public static bool operator ==(InheritStyle<T> a, InheritStyle<T> b)
         {
-            return a.Value.Equals(b.Value);
+            return a._value.Equals(b._value);
         }
 
         public static bool operator !=(InheritStyle<T> a, InheritStyle<T> b)
@@ -88,7 +83,7 @@
 
         public static bool operator ==(T a, InheritStyle<T> b)
         {
-            return a.Equals(b.Value);
+            return a.Equals(b._value);
         }
 
         public static bool operator !=(T a, InheritStyle<T> b)
@@ -98,7 +93,7 @@
 
         public static bool operator ==(InheritStyle<T> a, T b)
         {
-            return a.Value.Equals(b);
+            return a._value.Equals(b);
         }
 
         public static bool operator !=(InheritStyle<T> a, T b)

@@ -15,3 +15,11 @@
 /Zapos.Constructors.Razor.Tests/bin
 
 /Zapos.Constructors.Razor.Tests/*.Cache
+
+/*.Cache
+
+/Zapos.Constructors.Razor/*.Cache
+
+/Zapos.Printers.Gembox.Tests/*.Cache
+
+/Zapos.Printers.Gembox/*.Cache

@@ -83,6 +83,11 @@ namespace Zapos.Constructors.Razor.Parsers
                     Height = new InheritStyle<ushort>(20),
                     VAlign = new InheritStyle<VAlign>(VAlign.Bottom),
                     Width = new InheritStyle<ushort>(50),
+                    IsBold = new InheritStyle<bool>(false),
+                    IsItalic = new InheritStyle<bool>(false),
+                    IsLineThrough = new InheritStyle<bool>(false),
+                    IsOverline = new InheritStyle<bool>(false),
+                    IsUnderline = new InheritStyle<bool>(false)
                 };
             }
         }

@@ -8,7 +8,7 @@ namespace Zapos.Constructors.Razor.Extensions
     {
         public static HAlign ParseHAlign(string value)
         {
-            switch (value)
+            switch (value.ToLower())
             {
                 case "center":
                     return HAlign.Center;
@@ -25,7 +25,7 @@ namespace Zapos.Constructors.Razor.Extensions
 
         public static VAlign ParseVAlign(string value)
         {
-            switch (value)
+            switch (value.ToLower())
             {
                 case "bottom":
                     return VAlign.Bottom;
@@ -40,13 +40,13 @@ namespace Zapos.Constructors.Razor.Extensions
 
         public static BorderStyle ParseBorderStyle(string value)
         {
-            switch (value)
+            switch (value.ToLower())
             {
                 case "none":
                     return BorderStyle.None;
                 case "dotted":
                     return BorderStyle.Dotted;
-                case "dashed":
+                case "solid":
                     return BorderStyle.Solid;
                 case "double":
                     return BorderStyle.Dotted;

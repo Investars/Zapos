@@ -6,6 +6,7 @@ using GemBox.Spreadsheet;
 using Zapos.Common.DocumentModel;
 using Zapos.Common.Printers;
 using Zapos.Common.Styles;
+
 using CellStyle = Zapos.Common.Styles.CellStyle;
 using GemBoxCellStyle = GemBox.Spreadsheet.CellStyle;
 
@@ -32,7 +33,7 @@ namespace Zapos.Printers.Gembox
 
                 for (var index = 0; index < rowsHeight.Length; index++)
                 {
-                    ws.Rows[index].Height = rowsHeight[index] * 256;
+                    ws.Rows[index].Height = rowsHeight[index] * 20;
                 }
 
                 PrintSection(ref ws, table.Head.Rows);
@@ -50,7 +51,7 @@ namespace Zapos.Printers.Gembox
 
                 for (var index = 0; index < rowsHeight.Length; index++)
                 {
-                    ws.Rows[index].Height = rowsHeight[index];
+                    ws.Rows[index].Height = rowsHeight[index] * 20;
                 }
 
                 PrintSection(ref ws, table.Body.Rows);
@@ -58,8 +59,8 @@ namespace Zapos.Printers.Gembox
 
             var stream = new MemoryStream();
             ef.Save(stream, SaveOptions.PdfDefault);
-            ef.Save("Export.xlsx");
-            ef.Save("Export.pdf");
+            //ef.Save("Export.xlsx");
+            //ef.Save("Export.pdf");
             stream.Position = 0;
             return stream;
         }
@@ -73,7 +74,7 @@ namespace Zapos.Printers.Gembox
             var parallelRows = rows.AsParallel();
 
             var result = Enumerable
-                            .Range(0, columnCount - 1)
+                            .Range(0, columnCount)
                             .Select(index => parallelRows.Max(row =>
                                 {
                                     try
@@ -160,10 +161,10 @@ namespace Zapos.Printers.Gembox
                     return LineStyle.Dotted;
                 case BorderStyle.Double:
                     return LineStyle.Double;
-                case null:
-                    return LineStyle.None;
+                case BorderStyle.Solid:
+                    return LineStyle.Thin;
                 default:
-                    return LineStyle.Medium;
+                    return LineStyle.None;
             }
         }
     }
