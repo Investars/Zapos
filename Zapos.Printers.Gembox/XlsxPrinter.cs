@@ -5,7 +5,7 @@ using Zapos.Common.Printers;
 
 namespace Zapos.Printers.Gembox
 {
-    public class XlsxPrinter : InternalPrinter, ITablePrinter
+    public class XlsxPrinter : GemboxUniversalPrinter, ITablePrinter
     {
         new public Stream Print(Table table)
         {

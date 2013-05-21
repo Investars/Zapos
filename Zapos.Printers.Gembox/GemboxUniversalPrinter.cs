@@ -10,7 +10,7 @@ using GemBoxCellStyle = GemBox.Spreadsheet.CellStyle;
 
 namespace Zapos.Printers.Gembox
 {
-    public abstract class InternalPrinter
+    public abstract class GemboxUniversalPrinter
     {
         public ExcelFile Print(Table table)
         {

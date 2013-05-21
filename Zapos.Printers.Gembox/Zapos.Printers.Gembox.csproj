@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GemboxTablePrinter.cs" />
+    <Compile Include="GemboxUniversalPrinter.cs" />
     <Compile Include="PdfPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XlsxPrinter.cs" />
