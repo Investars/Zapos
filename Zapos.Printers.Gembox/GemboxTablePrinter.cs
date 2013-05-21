@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 using GemBox.Spreadsheet;
 using Zapos.Common.DocumentModel;
-using Zapos.Common.Printers;
 using Zapos.Common.Styles;
 
 using CellStyle = Zapos.Common.Styles.CellStyle;
@@ -12,9 +10,9 @@ using GemBoxCellStyle = GemBox.Spreadsheet.CellStyle;
 
 namespace Zapos.Printers.Gembox
 {
-    public class GemboxTablePrinter : ITablePrinter
+    public abstract class InternalPrinter
     {
-        public Stream Print(Table table)
+        public ExcelFile Print(Table table)
         {
             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
 
@@ -57,12 +55,7 @@ namespace Zapos.Printers.Gembox
                 PrintSection(ref ws, table.Body.Rows);
             }
 
-            var stream = new MemoryStream();
-            ef.Save(stream, SaveOptions.PdfDefault);
-            //ef.Save("Export.xlsx");
-            //ef.Save("Export.pdf");
-            stream.Position = 0;
-            return stream;
+            return ef;
         }
 
         private static int[] CalculateColumnsWidth(params TableRow[][] rowsCollections)

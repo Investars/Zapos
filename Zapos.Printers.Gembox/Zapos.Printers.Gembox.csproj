@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GemboxTablePrinter.cs" />
+    <Compile Include="PdfPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XlsxPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zapos.Common\Zapos.Common.csproj">

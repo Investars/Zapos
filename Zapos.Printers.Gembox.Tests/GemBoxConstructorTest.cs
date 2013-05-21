@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
+using Zapos.Common;
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Printers.Gembox.Tests.TestModels;
 
@@ -27,10 +28,8 @@ namespace Zapos.Printers.Gembox.Tests
                 })
             };
 
-            var constructor = new RazorGridConstructor();
-            var table = constructor.CreateTable(filePath, model);
-
-            var stream = new GemboxTablePrinter().Print(table);
+            var report = new Report<RazorGridConstructor, PdfPrinter>();
+            var stream = report.Create(filePath, model);
 
             Assert.NotNull(stream);
         }
