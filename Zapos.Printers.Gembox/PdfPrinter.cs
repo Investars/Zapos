@@ -9,11 +9,9 @@ namespace Zapos.Printers.Gembox
     {
         new public Stream Print(Table table)
         {
-            var pdfTable = base.Print(table);
-
+            var preFile = base.Print(table);
             var stream = new MemoryStream();
-            pdfTable.Save(stream, SaveOptions.PdfDefault);
-            pdfTable.Save("report.pdf");
+            preFile.Save(stream, SaveOptions.PdfDefault);
             stream.Position = 0;
             return stream;
         }
