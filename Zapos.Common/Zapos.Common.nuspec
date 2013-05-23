@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Zapos.Common</id>
+    <version>0.0.1.1</version>
+    <title>Zapos.Common</title>
+    <authors>Pavel Zaitsau; Alexander Belenkov</authors>
+    <owners>Pavel Zaitsau; Alexander Belenkov</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>My package description.</description>
+    <releaseNotes>Release Notes</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>Export Razor</tags>
+  </metadata>
+</package>
