@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("6c2f4d8b-78b9-4130-a09b-3e3fd935b8d6")]
+[assembly: InternalsVisibleTo("Zapos.Printers.Gembox.Tests")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -56,10 +56,6 @@
       <Project>{79d33410-b856-44e5-a0fe-86f16ae33e34}</Project>
       <Name>Zapos.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zapos.Constructors.Razor\Zapos.Constructors.Razor.csproj">
-      <Project>{006e3081-ed3f-4976-87ad-8161ed95c9d1}</Project>
-      <Name>Zapos.Constructors.Razor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zapos.Printers.Gembox\Zapos.Printers.Gembox.csproj">
       <Project>{fb8d86ad-2a8b-475d-be4c-6e65f3623124}</Project>
       <Name>Zapos.Printers.Gembox</Name>

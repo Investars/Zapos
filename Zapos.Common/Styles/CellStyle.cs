@@ -20,7 +20,5 @@ namespace Zapos.Common.Styles
         public string NumberFormat { get; set; }
 
         public string Title { get; set; }
-
-        public Image Image { get; set; }
     }
 }
