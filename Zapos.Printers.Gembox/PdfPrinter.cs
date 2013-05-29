@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using GemBox.Spreadsheet;
 using Zapos.Common.DocumentModel;
 using Zapos.Common.Printers;
@@ -14,6 +15,11 @@ namespace Zapos.Printers.Gembox
             preFile.Save(stream, SaveOptions.PdfDefault);
             stream.Position = 0;
             return stream;
+        }
+
+        public new void Init(IDictionary<string, object> config)
+        {
+            base.Init(config);
         }
     }
 }

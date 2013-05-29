@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -28,7 +29,19 @@ namespace Zapos.Printers.Gembox.Tests
                 })
             };
 
-            var report = new Report<RazorGridConstructor, PdfPrinter>();
+            Func<string, string> resolvePath = s => s;
+
+            var constructorConfig = new Dictionary<string, object>
+                {
+                    {"RESOLVE_PATH_ACTION", resolvePath}
+                };
+
+            var printerConfig = new Dictionary<string, object>
+                {
+                    {"LICENSE_KEY", "FREE-LICENSE-KEY"}
+                };
+
+            var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, printerConfig);
             var stream = report.Create(filePath, model);
 
             Assert.NotNull(stream);

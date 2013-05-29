@@ -12,9 +12,13 @@ namespace Zapos.Printers.Gembox
 {
     public abstract class GemboxUniversalPrinter
     {
+        private IDictionary<string, object> _config;
+
+        private string _licenseKey;
+
         public ExcelFile Print(Table table)
         {
-            SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
+            SpreadsheetInfo.SetLicense(_licenseKey);
 
             var ef = new ExcelFile();
             var ws = ef.Worksheets.Add("Report");
@@ -159,6 +163,12 @@ namespace Zapos.Printers.Gembox
                 default:
                     return LineStyle.None;
             }
+        }
+
+        protected void Init(IDictionary<string, object> config)
+        {
+            _config = config;
+            _licenseKey = (string)_config["LICENSE_KEY"];
         }
     }
 }

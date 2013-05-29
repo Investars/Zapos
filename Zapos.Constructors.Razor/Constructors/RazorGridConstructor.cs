@@ -14,6 +14,17 @@ namespace Zapos.Constructors.Razor.Constructors
 {
     public class RazorGridConstructor : IGridConstructor
     {
+        private IDictionary<string, object> _config;
+
+        private Func<string, string> _resolvePath = s => s;
+
+        public void Init(IDictionary<string, object> config)
+        {
+            _config = config;
+
+            _resolvePath = (Func<string, string>)_config["RESOLVE_PATH_ACTION"];
+        }
+
         public Table CreateTable<TModel>(string filePath, TModel model)
         {
             var generator = new RazorTextGenerator();
