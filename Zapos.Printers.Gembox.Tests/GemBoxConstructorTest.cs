@@ -16,7 +16,7 @@ namespace Zapos.Printers.Gembox.Tests
 
             var tableModel = new Table
                 {
-
+                    Images = new TableImage[0],
                 };
 
             var printer = new PdfPrinter();
@@ -30,6 +30,7 @@ namespace Zapos.Printers.Gembox.Tests
                 Assert.AreNotEqual(stream.Length, 0);
             }
 
+            Assert.Greater(File.ReadAllBytes("test.pdf").Length, 10);
             File.Delete("test.pdf");
         }
     }
