@@ -2,9 +2,9 @@
 {
     public struct InheritStyle<T>
     {
-        private T _value;
-
         private readonly T _baseValue;
+
+        private T _value;
 
         private bool _isBase;
 
@@ -47,7 +47,17 @@
 
         public override bool Equals(object obj)
         {
-            return this == (InheritStyle<T>)obj;
+            if (obj is InheritStyle<T>)
+            {
+                return this == (InheritStyle<T>)obj;
+            }
+
+            if (obj is T)
+            {
+                return this == (T)obj;
+            }
+
+            return false;
         }
 
         public override int GetHashCode()

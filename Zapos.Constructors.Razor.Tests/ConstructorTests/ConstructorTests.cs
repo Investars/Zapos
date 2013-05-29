@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Constructors.Razor.Tests.TestModels;
 

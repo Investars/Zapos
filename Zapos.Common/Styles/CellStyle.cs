@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Zapos.Common.Styles
+﻿namespace Zapos.Common.Styles
 {
     public struct CellStyle
     {
@@ -21,6 +19,6 @@ namespace Zapos.Common.Styles
 
         public string Title { get; set; }
 
-        public Image Image { get; set; }
+        //public Image Image { get; set; }
     }
 }
