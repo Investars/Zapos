@@ -16,7 +16,7 @@ namespace Zapos.Printers.Gembox
 
         private string _licenseKey;
 
-        public ExcelFile Print(Table table)
+        protected ExcelFile Print(Table table)
         {
             SpreadsheetInfo.SetLicense(_licenseKey);
 
@@ -62,6 +62,12 @@ namespace Zapos.Printers.Gembox
             return ef;
         }
 
+        protected void Init(IDictionary<string, object> config)
+        {
+            _config = config;
+            _licenseKey = (string)_config["LICENSE_KEY"];
+        }
+
         private static int[] CalculateColumnsWidth(params TableRow[][] rowsCollections)
         {
             var rows = rowsCollections.SelectMany(collection => collection).ToArray();
@@ -101,7 +107,6 @@ namespace Zapos.Printers.Gembox
             var rowsInternal = rows.ToArray();
 
             var rowBeginPosition = rowBegin;
-            const int columnBeginPosition = 0;
 
             for (var rowIndex = 0; rowIndex < rowsInternal.Length; rowIndex++)
             {
@@ -112,10 +117,10 @@ namespace Zapos.Printers.Gembox
                 {
                     var cell = cells[columnIndex];
 
-                    ws.Cells[rowBeginPosition + rowIndex, columnBeginPosition + columnIndex]
+                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
                       .Value = cell.Value;
 
-                    ws.Cells[rowBeginPosition + rowIndex, columnBeginPosition + columnIndex]
+                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
                         .Style = ConvertStyle(cell.Style);
                 }
             }
@@ -124,10 +129,25 @@ namespace Zapos.Printers.Gembox
         private static GemBoxCellStyle ConvertStyle(CellStyle style)
         {
             var resultStyle = new GemBoxCellStyle();
-            resultStyle.Borders.SetBorders(MultipleBorders.Top, style.Style.BorderTopColor, ConvertLineStyle(style.Style.BorderTopStyle));
-            resultStyle.Borders.SetBorders(MultipleBorders.Right, style.Style.BorderRightColor, ConvertLineStyle(style.Style.BorderRightStyle));
-            resultStyle.Borders.SetBorders(MultipleBorders.Bottom, style.Style.BorderBottomColor, ConvertLineStyle(style.Style.BorderBottomStyle));
-            resultStyle.Borders.SetBorders(MultipleBorders.Left, style.Style.BorderLeftColor, ConvertLineStyle(style.Style.BorderLeftStyle));
+            resultStyle.Borders.SetBorders(
+                MultipleBorders.Top,
+                style.Style.BorderTopColor,
+                ConvertLineStyle(style.Style.BorderTopStyle));
+
+            resultStyle.Borders.SetBorders(
+                MultipleBorders.Right,
+                style.Style.BorderRightColor,
+                ConvertLineStyle(style.Style.BorderRightStyle));
+
+            resultStyle.Borders.SetBorders(
+                MultipleBorders.Bottom,
+                style.Style.BorderBottomColor,
+                ConvertLineStyle(style.Style.BorderBottomStyle));
+
+            resultStyle.Borders.SetBorders(
+                MultipleBorders.Left,
+                style.Style.BorderLeftColor,
+                ConvertLineStyle(style.Style.BorderLeftStyle));
 
             resultStyle.FillPattern.PatternStyle = FillPatternStyle.Solid;
             resultStyle.FillPattern.PatternForegroundColor = style.Style.BackgroundColor;
@@ -163,12 +183,6 @@ namespace Zapos.Printers.Gembox
                 default:
                     return LineStyle.None;
             }
-        }
-
-        protected void Init(IDictionary<string, object> config)
-        {
-            _config = config;
-            _licenseKey = (string)_config["LICENSE_KEY"];
         }
     }
 }

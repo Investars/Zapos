@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using NUnit.Framework;
+
 using Zapos.Common;
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Printers.Gembox.Tests.TestModels;
@@ -33,18 +34,21 @@ namespace Zapos.Printers.Gembox.Tests
 
             var constructorConfig = new Dictionary<string, object>
                 {
-                    {"RESOLVE_PATH_ACTION", resolvePath}
+                    { "RESOLVE_PATH_ACTION", resolvePath }
                 };
 
             var printerConfig = new Dictionary<string, object>
                 {
-                    {"LICENSE_KEY", "FREE-LICENSE-KEY"}
+                    { "LICENSE_KEY", "FREE-LIMITED-KEY" }
                 };
 
             var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, printerConfig);
-            var stream = report.Create(filePath, model);
+            using (var stream = new MemoryStream())
+            {
+                report.Create(stream, filePath, model);
 
-            Assert.NotNull(stream);
+                Assert.AreNotEqual(stream.Length, 0);
+            }
         }
     }
 }
