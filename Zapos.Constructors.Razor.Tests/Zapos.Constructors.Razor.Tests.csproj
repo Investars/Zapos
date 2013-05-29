@@ -69,12 +69,12 @@
     <Compile Include="TestModels\TestReportModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\SimpleReport.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\SimpleStyles.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="Content\SimpleReport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\SimpleStyles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>
