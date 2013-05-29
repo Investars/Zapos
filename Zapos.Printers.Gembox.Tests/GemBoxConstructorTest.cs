@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Zapos.Common.DocumentModel;
 
 namespace Zapos.Printers.Gembox.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class GemBoxConstructorTest
     {
-        [Test]
+        [TestMethod]
         public void ConstructorTest()
         {
             var tableModel = new Table();
@@ -32,7 +31,7 @@ namespace Zapos.Printers.Gembox.Tests
 
                 var bytes = File.ReadAllBytes("test.pdf");
 
-                Assert.Greater(bytes.Length, 1024);
+                Assert.IsTrue(bytes.Length > 1024);
             }
             finally
             {

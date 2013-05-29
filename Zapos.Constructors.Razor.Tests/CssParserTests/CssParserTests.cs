@@ -1,16 +1,15 @@
 ﻿using System.IO;
-
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Zapos.Common.Styles;
 using Zapos.Constructors.Razor.Parsers;
 
 namespace Zapos.Constructors.Razor.Tests.CssParserTests
 {
-    [TestFixture]
+    [TestClass]
     public class CssParserTests
     {
-        [Test]
+        [TestMethod]
         public void TestCssParcer()
         {
             var content = File.ReadAllText(Path.Combine("Content", "SimpleStyles.css"));
@@ -20,7 +19,7 @@ namespace Zapos.Constructors.Razor.Tests.CssParserTests
 
             BaseStyle temp;
 
-            Assert.NotNull(classes);
+            Assert.IsNotNull(classes);
             Assert.IsTrue(classes.TryGetValue("head", out temp));
             Assert.IsTrue(classes.TryGetValue("odd", out temp));
             Assert.IsTrue(classes.TryGetValue("value", out temp));

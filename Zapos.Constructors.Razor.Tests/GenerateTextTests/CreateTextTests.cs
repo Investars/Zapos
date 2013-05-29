@@ -3,17 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Zapos.Constructors.Razor.Generators;
 using Zapos.Constructors.Razor.Tests.TestModels;
 
 namespace Zapos.Constructors.Razor.Tests.GenerateTextTests
 {
-    [TestFixture]
+    [TestClass]
     public class CreateTextTests
     {
-        [Test]
+        [TestMethod]
         public void GenerateTextTest()
         {
             var rnd = new Random();
@@ -40,7 +40,7 @@ namespace Zapos.Constructors.Razor.Tests.GenerateTextTests
             var table = document.Root.Element("table");
             // ReSharper restore PossibleNullReferenceException
 
-            Assert.IsNotNullOrEmpty(content, "Content is null or empty");
+            Assert.IsFalse(string.IsNullOrEmpty(content), "Content is null or empty");
             Assert.IsNotNull(style, "Cant find 'style' tag");
             Assert.IsNotNull(table, "Cant find 'table' tag");
         }

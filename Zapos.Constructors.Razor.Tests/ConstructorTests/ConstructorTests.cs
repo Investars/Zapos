@@ -1,16 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Constructors.Razor.Tests.TestModels;
 
 namespace Zapos.Constructors.Razor.Tests.ConstructorTests
 {
-    [TestFixture]
+    [TestClass]
     public class ConstructorTests
     {
-        [Test]
+        [TestMethod]
         public void ConstructorTest()
         {
             var rnd = new Random();
@@ -29,14 +29,14 @@ namespace Zapos.Constructors.Razor.Tests.ConstructorTests
             var constructor = new RazorGridConstructor();
             var table = constructor.CreateTable(filePath, model);
 
-            Assert.NotNull(table.Head);
-            Assert.NotNull(table.Body);
+            Assert.IsNotNull(table.Head);
+            Assert.IsNotNull(table.Body);
 
-            Assert.IsNotEmpty(table.Head.Rows);
-            Assert.IsNotEmpty(table.Body.Rows);
+            Assert.IsTrue(table.Head.Rows.Any());
+            Assert.IsTrue(table.Body.Rows.Any());
 
-            Assert.IsNotEmpty(table.Head.Rows.First().Cells);
-            Assert.IsNotEmpty(table.Body.Rows.First().Cells);
+            Assert.IsTrue(table.Head.Rows.First().Cells.Any());
+            Assert.IsTrue(table.Body.Rows.First().Cells.Any());
 
             Assert.IsNotNull(table.Head.Rows.First().Cells.First().Style);
             Assert.IsNotNull(table.Body.Rows.First().Cells.First().Style);
