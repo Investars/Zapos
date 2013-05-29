@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Constructors.Razor.Tests.TestModels;
@@ -11,11 +11,11 @@ namespace Zapos.Constructors.Razor.Tests.ConstructorTests
     public class ConstructorTests
     {
         [TestMethod]
+        [DeploymentItem(@".\Content", "Content")]
         public void ConstructorTest()
         {
             var rnd = new Random();
 
-            var filePath = Path.Combine("Content", "SimpleReport.cshtml");
             var model = new TestReportModel
                 {
                     Items = Enumerable.Range(0, 50).Select(id => new TestReportItemModel
@@ -27,7 +27,7 @@ namespace Zapos.Constructors.Razor.Tests.ConstructorTests
                 };
 
             var constructor = new RazorGridConstructor();
-            var table = constructor.CreateTable(filePath, model);
+            var table = constructor.CreateTable(@"Content\SimpleReport.cshtml", model);
 
             Assert.IsNotNull(table.Head);
             Assert.IsNotNull(table.Body);

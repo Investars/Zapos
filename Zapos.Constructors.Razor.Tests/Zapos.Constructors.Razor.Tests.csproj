@@ -61,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="ConstructorTests\ConstructorTests.cs" />
     <Compile Include="CssParserTests\CssParserTests.cs" />
     <Compile Include="GenerateTextTests\CreateTextTests.cs" />
@@ -69,12 +72,12 @@
     <Compile Include="TestModels\TestReportModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\SimpleReport.cshtml">
+    <None Include="Content\SimpleReport.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\SimpleStyles.css">
+    </None>
+    <None Include="Content\SimpleStyles.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>

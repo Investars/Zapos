@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -14,11 +13,11 @@ namespace Zapos.Constructors.Razor.Tests.GenerateTextTests
     public class CreateTextTests
     {
         [TestMethod]
+        [DeploymentItem(@".\Content", "Content")]
         public void GenerateTextTest()
         {
             var rnd = new Random();
 
-            var filePath = Path.Combine("Content", "SimpleReport.cshtml");
             var model = new TestReportModel
                 {
                     Items = Enumerable.Range(0, 50).Select(id => new TestReportItemModel
@@ -31,7 +30,7 @@ namespace Zapos.Constructors.Razor.Tests.GenerateTextTests
 
             var generator = new RazorTextGenerator();
 
-            var content = generator.Generate(filePath, model);
+            var content = generator.Generate(@"Content\SimpleReport.cshtml", model);
 
             var document = XDocument.Parse("<body>" + content + "</body>");
 

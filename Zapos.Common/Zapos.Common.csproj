@@ -35,6 +35,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Constructors\IGridConstructor.cs" />
     <Compile Include="DocumentModel\Table.cs" />
     <Compile Include="DocumentModel\TableBody.cs" />

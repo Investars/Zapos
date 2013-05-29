@@ -3,7 +3,7 @@
 namespace Zapos.Common.Styles
 {
     [Flags]
-    public enum FontDecoration 
+    public enum FontDecoration
     {
         LineThrough,
         Overline,

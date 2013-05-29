@@ -10,12 +10,12 @@ namespace Zapos.Constructors.Razor.Tests.CssParserTests
     public class CssParserTests
     {
         [TestMethod]
+        [DeploymentItem(@".\Content", "Content")]
         public void TestCssParcer()
         {
-            var content = File.ReadAllText(Path.Combine("Content", "SimpleStyles.css"));
-
             var parser = new CssParser();
-            var classes = parser.ParceCss(content);
+            var data = new StreamReader(@"Content\SimpleStyles.css").ReadToEnd();
+            var classes = parser.ParceCss(data);
 
             BaseStyle temp;
 
