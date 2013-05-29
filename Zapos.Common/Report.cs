@@ -11,6 +11,7 @@ namespace Zapos.Common
         where TPrinter : ITablePrinter, new()
     {
         private readonly IDictionary<string, object> _constructorConfig;
+
         private readonly IDictionary<string, object> _printerConfig;
 
         public Report(
@@ -21,8 +22,7 @@ namespace Zapos.Common
             _printerConfig = printerConfig;
         }
 
-
-        public Stream Create<T>(string filePath, T model)
+        public void Create<T>(Stream stream, string filePath, T model)
         {
             var construnctor = new TGridConstructor();
             if (_constructorConfig != null)
@@ -38,9 +38,8 @@ namespace Zapos.Common
             {
                 printer.Init(_printerConfig);
             }
-            var stream = printer.Print(table);
 
-            return stream;
+            printer.Print(stream, table);
         }
     }
 }
