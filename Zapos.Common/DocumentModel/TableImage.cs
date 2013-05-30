@@ -12,6 +12,6 @@ namespace Zapos.Common.DocumentModel
 
         public int Height { get; set; }
 
-        public Image Image { get; set; }
+        public string ImagePath { get; set; }
     }
 }

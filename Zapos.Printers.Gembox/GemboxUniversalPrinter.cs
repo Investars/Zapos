@@ -62,7 +62,7 @@ namespace Zapos.Printers.Gembox
 
             foreach (var image in table.Images)
             {
-                ws.Pictures.Add(image.Image, new Rectangle(image.Left, image.Top, image.Width, image.Height));
+                ws.Pictures.Add(image.ImagePath, new Rectangle(image.Left, image.Top, image.Width, image.Height));
             }
 
             return ef;
