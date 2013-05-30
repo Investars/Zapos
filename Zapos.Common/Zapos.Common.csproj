@@ -43,6 +43,7 @@
     <Compile Include="DocumentModel\TableBody.cs" />
     <Compile Include="DocumentModel\TableCell.cs" />
     <Compile Include="DocumentModel\TableHead.cs" />
+    <Compile Include="DocumentModel\TableImage.cs" />
     <Compile Include="DocumentModel\TableRow.cs" />
     <Compile Include="Generators\ITextGenerator.cs" />
     <Compile Include="Printers\ITablePrinter.cs" />

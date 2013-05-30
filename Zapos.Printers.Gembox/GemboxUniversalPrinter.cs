@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 using GemBox.Spreadsheet;
@@ -57,6 +58,11 @@ namespace Zapos.Printers.Gembox
                 }
 
                 PrintSection(ref ws, table.Body.Rows);
+            }
+
+            foreach (var image in table.Images)
+            {
+                ws.Pictures.Add(image.Image, new Rectangle(image.Left, image.Top, image.Width, image.Height));
             }
 
             return ef;
