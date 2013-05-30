@@ -7,6 +7,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Zapos.Printers.Gembox")]
 [assembly: Guid("6c2f4d8b-78b9-4130-a09b-3e3fd935b8d6")]
 [assembly: InternalsVisibleTo("Zapos.Printers.Gembox.Tests")]
-
-[assembly: AssemblyVersion("0.0.0.0")]
-[assembly: AssemblyFileVersion("0.0.0.0")]
