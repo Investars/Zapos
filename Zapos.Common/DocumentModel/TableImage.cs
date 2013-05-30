@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Zapos.Common.DocumentModel
+﻿namespace Zapos.Common.DocumentModel
 {
     public class TableImage
     {
@@ -12,6 +10,6 @@ namespace Zapos.Common.DocumentModel
 
         public int Height { get; set; }
 
-        public Image Image { get; set; }
+        public string ImagePath { get; set; }
     }
 }

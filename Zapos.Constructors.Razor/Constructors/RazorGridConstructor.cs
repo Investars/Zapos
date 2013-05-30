@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -35,7 +36,7 @@ namespace Zapos.Constructors.Razor.Constructors
 
             // ReSharper disable PossibleNullReferenceException
 
-            var tableTag = document.Root.Element("table");
+            var tableTags = document.Root.Elements("table");
 
             var styleTag = document.Root.Elements("style").FirstOrDefault();
 
@@ -53,7 +54,15 @@ namespace Zapos.Constructors.Razor.Constructors
                 classes = new Dictionary<string, BaseStyle>();
             }
 
-            var table = ParseTable(tableTag, classes);
+            var tables = ParseTables(tableTags, classes);
+
+            var imagesTags = document.Root.Elements("img");
+
+            var images = ParseImages(imagesTags);
+
+            // TODO: Remove stub.
+            var table = tables.First();
+            table.Images = images;
 
             return table;
         }
@@ -86,41 +95,44 @@ namespace Zapos.Constructors.Razor.Constructors
             return result;
         }
 
-        private static Table ParseTable(XElement tableTag, IDictionary<string, BaseStyle> classes)
+        private static IEnumerable<Table> ParseTables(IEnumerable<XElement> tableTags, IDictionary<string, BaseStyle> classes)
         {
-            var tableStyle = StyleFactory.DefaultStyle;
-            var attrClass = tableTag.Attributes("class").FirstOrDefault();
-            if (attrClass != null)
+            foreach (var tableTag in tableTags)
             {
-                var tableClasses = GetStylesByClasses(classes, attrClass);
-                tableStyle = StyleFactory.MergeStyles(tableClasses);
-            }
-
-            TableBody tableBody;
-            var tableBodyTag = tableTag.Elements("tbody").FirstOrDefault();
-
-            if (tableBodyTag != null)
-            {
-                tableBody = ParseTableBody(tableBodyTag, tableStyle, classes);
-            }
-            else
-            {
-                throw new FormatException("Can't find 'tbody' tag.");
-            }
-
-            var tableHeadTag = tableTag.Elements("thead").FirstOrDefault();
-
-            var tableHead = tableHeadTag != null ? ParseTableHead(tableHeadTag, tableStyle, classes) : null;
-
-            var table = new Table
+                var tableStyle = StyleFactory.DefaultStyle;
+                var attrClass = tableTag.Attributes("class").FirstOrDefault();
+                if (attrClass != null)
                 {
-                    Body = tableBody,
-                    Head = tableHead,
+                    var tableClasses = GetStylesByClasses(classes, attrClass);
+                    tableStyle = StyleFactory.MergeStyles(tableClasses);
+                }
 
-                    Style = tableStyle
-                };
+                TableBody tableBody;
+                var tableBodyTag = tableTag.Elements("tbody").FirstOrDefault();
 
-            return table;
+                if (tableBodyTag != null)
+                {
+                    tableBody = ParseTableBody(tableBodyTag, tableStyle, classes);
+                }
+                else
+                {
+                    throw new FormatException("Can't find 'tbody' tag.");
+                }
+
+                var tableHeadTag = tableTag.Elements("thead").FirstOrDefault();
+
+                var tableHead = tableHeadTag != null ? ParseTableHead(tableHeadTag, tableStyle, classes) : null;
+
+                var table = new Table
+                    {
+                        Body = tableBody,
+                        Head = tableHead,
+
+                        Style = tableStyle
+                    };
+
+                yield return table;
+            }
         }
 
         private static TableHead ParseTableHead(
@@ -283,6 +295,85 @@ namespace Zapos.Constructors.Razor.Constructors
             };
 
             return cell;
+        }
+
+        private IEnumerable<TableImage> ParseImages(IEnumerable<XElement> imagesTags)
+        {
+            foreach (var imagesTag in imagesTags)
+            {
+                var tableImage = new TableImage();
+                var styleAttr = imagesTag.Attribute("style").Value;
+                if (!string.IsNullOrWhiteSpace(styleAttr))
+                {
+                    var styles = styleAttr
+                                    .ToLower()
+                                    .Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(
+                                        style => style
+                                                     .Trim()
+                                                     .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)
+                                                     .Select(part => part.Trim()))
+                                    .ToDictionary(item => item.ElementAt(0), item => item.ElementAt(1));
+
+                    try
+                    {
+                        tableImage.Height = int.Parse(styles["height"].Replace("px", string.Empty));
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new FormatException("Can't parse image height.", exception);
+                    }
+
+                    try
+                    {
+                        tableImage.Width = int.Parse(styles["width"].Replace("px", string.Empty));
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new FormatException("Can't parse image width.", exception);
+                    }
+
+                    try
+                    {
+                        tableImage.Left = int.Parse(styles["left"].Replace("px", string.Empty));
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new FormatException("Can't parse image left.", exception);
+                    }
+
+                    try
+                    {
+                        tableImage.Top = int.Parse(styles["top"].Replace("px", string.Empty));
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new FormatException("Can't parse image top.", exception);
+                    }
+                }
+                else
+                {
+                    throw new FormatException("Can't parse img style attribute.");
+                }
+
+                var src = imagesTag.Attribute("src").Value;
+                if (!string.IsNullOrWhiteSpace(src))
+                {
+                    var path = _resolvePath(src);
+                    if (!File.Exists(path))
+                    {
+                        throw new FileNotFoundException("Can't find image", path);
+                    }
+
+                    tableImage.ImagePath = path;
+                }
+                else
+                {
+                    throw new FormatException("Can't parse img src attribute.");
+                }
+
+                yield return tableImage;
+            }
         }
     }
 }
