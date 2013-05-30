@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Zapos.Common.DocumentModel;
+using Zapos.Constructors.Razor.Constructors;
+using Zapos.Constructors.Razor.Tests.TestModels;
 
 namespace Zapos.Printers.Gembox.Tests
 {
@@ -10,34 +12,49 @@ namespace Zapos.Printers.Gembox.Tests
     public class GemBoxConstructorTest
     {
         [TestMethod]
+        [DeploymentItem(@".\Content", "Content")]
+        [DeploymentItem(@".\Content\Images", @"Content\Images")]
         public void ConstructorTest()
         {
-            var tableModel = new Table();
+            var rnd = new Random();
 
-            var printerConfig = new Dictionary<string, object>
+            var model = new TestReportModel
+            {
+                Items = Enumerable.Range(0, 50).Select(id => new TestReportItemModel
                 {
-                    { "LICENSE_KEY", "FREE-LIMITED-KEY" }
-                };
+                    Id = id,
+                    Name = Guid.NewGuid().ToString(),
+                    Value = rnd.Next(1000000, 10000000) / 1000.0
+                })
+            };
 
-            var printer = new PdfPrinter();
-            printer.Init(printerConfig);
+            Func<string, string> pathConverter = s => s.Replace("/", "\\");
+
+            var constructor = new RazorGridConstructor();
+            constructor.Init(new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } });
+            var tableModel = constructor.CreateTable(@"Content\SimpleReport.cshtml", model);
 
             try
             {
-                using (var fileStream = new FileStream("test.pdf", FileMode.CreateNew))
+                var printer = new XlsxPrinter();
+
+                printer.Init(new Dictionary<string, object> { { "LICENSE_KEY", "FREE-LIMITED-KEY" } });
+
+                using (Stream stream = new FileStream("test.xlsx", FileMode.Create))
                 {
-                    printer.Print(fileStream, tableModel);
+                    printer.Print(stream, tableModel);
+
+                    Assert.AreNotEqual(stream.Length, 0);
                 }
 
-                var bytes = File.ReadAllBytes("test.pdf");
-
-                Assert.IsTrue(bytes.Length > 1024);
+                Assert.IsTrue(File.Exists("test.xlsx"));
+                Assert.IsTrue(File.ReadAllBytes("test.xlsx").Length > 1024);
             }
             finally
             {
-                if (File.Exists("test.pdf"))
+                if (File.Exists("test.xlsx"))
                 {
-                    File.Delete("test.pdf");
+                    File.Delete("test.xlsx");
                 }
             }
         }

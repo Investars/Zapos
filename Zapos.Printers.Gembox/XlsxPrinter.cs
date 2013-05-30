@@ -10,10 +10,9 @@ namespace Zapos.Printers.Gembox
 {
     public class XlsxPrinter : GemboxUniversalPrinter, ITablePrinter
     {
-        public void Print(Stream stream1, Table table)
+        public void Print(Stream stream, Table table)
         {
             var preFile = Print(table);
-            var stream = new MemoryStream();
             preFile.Save(stream, SaveOptions.XlsxDefault);
         }
 

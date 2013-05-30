@@ -1,0 +1,19 @@
+﻿.head
+{
+    font-size: 14pt;
+    text-align: center;
+}
+.odd
+{
+    background-color: #c8d197;
+}
+.value
+{
+    /*text-decoration: underline;*/ /*font-style: italic;*/
+    text-align: center;
+}
+.name
+{
+    text-align: left;
+    color: #eb2138; /*font-weight: bold;*/
+}

@@ -39,6 +39,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
@@ -48,6 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\SimpleReport.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
@@ -55,10 +59,32 @@
       <Project>{79d33410-b856-44e5-a0fe-86f16ae33e34}</Project>
       <Name>Zapos.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zapos.Constructors.Razor.Tests\Zapos.Constructors.Razor.Tests.csproj">
+      <Project>{965EA262-EC21-48EB-85DD-BD1C564AA8CF}</Project>
+      <Name>Zapos.Constructors.Razor.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zapos.Constructors.Razor\Zapos.Constructors.Razor.csproj">
+      <Project>{006E3081-ED3F-4976-87AD-8161ED95C9D1}</Project>
+      <Name>Zapos.Constructors.Razor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zapos.Printers.Gembox\Zapos.Printers.Gembox.csproj">
       <Project>{fb8d86ad-2a8b-475d-be4c-6e65f3623124}</Project>
       <Name>Zapos.Printers.Gembox</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Images\1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Images\2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Images\3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\SimpleStyles.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
