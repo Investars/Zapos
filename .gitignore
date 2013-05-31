@@ -26,3 +26,5 @@
 /TestResults
 
 /Zapos.Constructors.Razor.Tests/*.user
+
+/Zapos.Printers.Gembox.Tests/*.user
