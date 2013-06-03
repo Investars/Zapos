@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Zapos.Printers.Gembox</id>
-    <version>0.0.1.4</version>
+<!--    <version>0.0.1.4</version> -->
     <title>Zapos.Printers.Gembox</title>
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
@@ -12,7 +12,7 @@
     <copyright>Copyright 2013</copyright>
     <tags>Export PDF XLSX Razor</tags>
 	<dependencies>
-		<dependency id="Zapos.Common" version="1.13" />
+		<dependency id="Zapos.Common" version="1.13.1.1" />
 		<dependency id="GemBox.Spreadsheet" version="37.3.30.1030" />
 	</dependencies>
   </metadata>

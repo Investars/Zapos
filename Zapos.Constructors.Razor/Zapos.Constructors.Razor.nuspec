@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Zapos.Constructors.Razor</id>
-    <version>0.0.1.4</version>
+<!--    <version>0.0.1.4</version>-->
     <title>Zapos.Constructors.Razor</title>
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
@@ -15,7 +15,7 @@
 		<dependency id="ExCSS" version="1.1.0" />
 		<dependency id="Microsoft.AspNet.Razor" version="2.0.20715.0" />
 		<dependency id="RazorEngine" version="3.2.0" />
-		<dependency id="Zapos.Common" version="0.0.1.1" />
+		<dependency id="Zapos.Common" version="1.13.1.1" />
 	</dependencies>
   </metadata>
 </package>
