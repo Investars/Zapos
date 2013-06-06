@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Zapos.Constructors.Razor</id>
-<!--    <version>0.0.1.4</version>-->
+    <version>1.13.*</version>
     <title>Zapos.Constructors.Razor</title>
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
