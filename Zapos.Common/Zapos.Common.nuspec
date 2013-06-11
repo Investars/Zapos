@@ -12,7 +12,10 @@
     <copyright>Copyright 2013</copyright>
     <tags>Export Razor</tags>
     <references>
-        <reference file="Zapos.Common" />
+        <reference file="Zapos.Common.dll" />
     </references>
   </metadata>
+  <files>
+    <file src="Zapos.Common.dll" target="lib"/>
+  </files>
 </package>
