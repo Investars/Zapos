@@ -11,5 +11,8 @@
     <releaseNotes>Release Notes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Export Razor</tags>
+    <references>
+        <reference file="Zapos.Common.dll" />
+    </references>
   </metadata>
 </package>
