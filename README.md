@@ -1,23 +1,23 @@
-## Zapos
+# Zapos
 
 Zapos, is the universal table-reporting framework. He is supporting now  two file formats  - pdf and xlsx. Primary document - is file, based on markup language (like html or xml) with specific page structure.
 
 
-#### Page structure
+## Page structure
 
 —труктура страницы состоит тега <style> ... </style>, включающего в себ€ ZCSS стили и тегов <table> ... </table>.
 Table поддерживает thead и tbody, которые ничем не отличаютс€ от html таблиц.
 
-#### Allowed styles and attributes
+### Allowed styles and attributes
 
-###### 1. Attributes:
+#### 1. Attributes:
 
   * td/th
 * formula
 * title
 * number-format
 
-###### 2. Styles:
+#### 2. Styles:
 
 * color: #(hex)
 * text-align: center | left | right
@@ -35,11 +35,11 @@ Table поддерживает thead и tbody, которые ничем не отличаютс€ от html таблиц.
 * font-style: normal | italic
 * font-weight: bold | normal
 
-#### ZCSS
+### ZCSS
 
 ZCSS - css-подобные таблицы стилей, которые поддерживают только перечисленные ранее стили. “ак же, в отличии от CSS, в ZCSS возможно использование только селектора по классу.
 
-#### »спользование
+### »спользование
 
 ƒл€ конвертации документа из ML в PDF или XLSX служит метод Create(Stream stream, string filePath, T model) Report<TGridConstructor, TPrinter>. TPrinter - класс, который содержит параметры принтера (PdfPrinter либо XlsxPrinter). TGridConstructor
 
