@@ -89,7 +89,9 @@ ZCSS - css-like stylesheets that support only the styles listed above. Also, in 
 Firstly, you need to include it to the project. This can be done in two ways:
 *  Use nuget package manager. 
 ```nuget
-	PM> Install-Package Zapos.Printers.Gembox
+	Install-Package Zapos.Common
+	Install-Package Zapos.Constructors.Razor
+	Install-Package Zapos.Printers.Gembox
 ```
 
 *  Manually include the following DLL into project
@@ -106,13 +108,14 @@ Done! Now u can use this framework in your project. How it works you learn from 
 
     var model = GetModelForMyDocument();
 
-    var printerConfig = new Dictionary<string, object> { { "LICENSE_KEY", "<GemBox License key here>" } };
+    var printerConfig = new Dictionary<string, object> { { "LICENSE_KEY", "FREE-LIMITED-KEY" } };
 	
     Func<string, string> pathConverter = HttpContext.Current.Server.MapPath;
 
     var constructorConfig = new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } };
 	
-	//main class, take 2 params: gridConstructor and printerFormat(Pdf or Xslx). Constructor also take 2 params: constructorConfig and printerConfig
+	//main class, take 2 params: gridConstructor and printerFormat(Pdf or Xslx). 
+	//Constructor also take 2 params: constructorConfig and printerConfig
     var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, printerConfig);
 
     var path = Path.GetTempFileName();
