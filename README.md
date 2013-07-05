@@ -1,10 +1,14 @@
 # Zapos
 
-Zapos, is the universal table-reporting framework. He is supporting now  two file formats  - pdf and xlsx. Primary document - is file, based on markup language (like html or xml) with specific page structure. Page is formatted using ZCSS style sheets. 
+Zapos is the universal table-reporting framework. 
+It is supporting two file formats now   - pdf and xlsx. 
+Primary document - is the file, based on markup language (like html or xml) with specific page structure. 
+Page is formatted using ZCSS style sheets. 
 
 ## Page structure
 
-Page structure include 'style' and 'tables' tags. Table have 'tbody' and 'thead' sections, which do not differ from the same sections in CSS.
+Page structure includes 'style' and 'tables' tags. 
+The table has 'tbody' and 'thead' sections, which do not differ from the same sections in CSS.
 
 #### Page example
 
@@ -82,7 +86,8 @@ Page structure include 'style' and 'tables' tags. Table have 'tbody' and 'thead'
 
 ### ZCSS
 
-ZCSS - css-like stylesheets that support only the styles listed above. Also, in contrast to CSS, in ZCSS you can only use the class selector.
+ZCSS - css-like stylesheets that support only the styles listed above. 
+Also, in contrast to CSS, in ZCSS you can only use the class selector.
 
 ### How it works
 
@@ -99,7 +104,8 @@ Firstly, you need to include it to the project. This can be done in two ways:
  * Zapos.Constructors.Razor.dll
  * Zapos.Printers.Gembox.dll
  
-Done! Now u can use this framework in your project. How it works you learn from the example below code
+Done! Now you can use this framework in your project. 
+How it works you've learnt from the below code example
 
 #### Code example
  
@@ -114,15 +120,15 @@ Done! Now u can use this framework in your project. How it works you learn from 
 
     var constructorConfig = new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } };
 	
-	//main class, take 2 params: gridConstructor and printerFormat(Pdf or Xslx). 
-	//Constructor also take 2 params: constructorConfig and printerConfig
+	//main class takes 2 params: gridConstructor and printerFormat(Pdf or Xslx). 
+	//Constructor also takes 2 params: constructorConfig and printerConfig
     var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, printerConfig);
 
     var path = Path.GetTempFileName();
 	
     using (var stream = new FileStream(path, FileMode.OpenOrCreate))
     {
-	//Method Create take 3 params: file stream(your end file), page(path to convertible page) and model
+	//'Create' take 3 params: file stream(your end file), page(path to convertible page) and model
     report.Create(stream, page, model);
 	
 	return path;
