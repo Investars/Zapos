@@ -16,6 +16,6 @@
     </references>
   </metadata>
   <files>
-    <file src="Zapos.Common.dll" target="lib"/>
+    <file src="Zapos.Common\bin\Release\Zapos.Common.dll" target="lib\Release\Zapos.Common.dll"/>
   </files>
 </package>
