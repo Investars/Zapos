@@ -34,9 +34,13 @@
         @foreach (var item in Model.Items)
         {
             <tr class='@(index % 2 == 0 ? "" : "odd")'>
-                <td>@item.Id</td>
+                <td>
+                    @item.Id
+                    @item.Id
+                </td>
                 <td class="name">@item.Name</td>
                 <td class="value">@item.Value</td>
+                <td>A<br/>a</td>
             </tr>
 
             index++;
