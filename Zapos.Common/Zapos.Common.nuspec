@@ -11,11 +11,8 @@
     <releaseNotes>Release Notes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Export Razor</tags>
-    <references>
-        <reference file="Zapos.Common.dll" />
-    </references>
   </metadata>
   <files>
-    <file src="Zapos.Common\bin\Release\Zapos.Common.dll" target="lib\Release\Zapos.Common.dll"/>
+    <file src="Zapos.Common\bin\Release\Zapos.Common.dll" target="lib\Zapos.Common.dll"/>
   </files>
 </package>
