@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Zapos.Printers.Gembox</id>
-    <version>1.13.1.0</version>
+    <version>1.13.*</version>
     <title>Zapos.Printers.Gembox</title>
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
