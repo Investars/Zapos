@@ -7,7 +7,7 @@
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>My package description.</description>
+    <description>Constructors.Razor parse markup from razor .cshtml to abstract document model. Abstract model used on Printer.Gembox part of Zapos.</description>
     <releaseNotes>Release Notes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Export Razor</tags>

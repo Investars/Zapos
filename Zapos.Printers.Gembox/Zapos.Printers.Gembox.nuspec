@@ -7,7 +7,7 @@
     <authors>Pavel Zaitsau; Alexander Belenkov</authors>
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>My package description.</description>
+    <description>Printer.Gembox - small part of Zapos, responsible for converting report from abstract document model. Supports file formats: XLSX (XlsxPrinter) and PDF (PdfPrinter).</description>
 	<releaseNotes>Release Notes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Export PDF XLSX Razor</tags>
