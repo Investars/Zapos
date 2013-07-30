@@ -284,15 +284,31 @@ namespace Zapos.Constructors.Razor.Constructors
 
             string title = null;
 
-            var attrTitle = cellTag.Attributes("number-format").FirstOrDefault();
+            var attrTitle = cellTag.Attributes("title").FirstOrDefault();
             if (attrTitle != null)
             {
                 title = attrTitle.Value;
             }
 
+            int colspan = 0;
+
+            var attrColspan = cellTag.Attributes("colspan").FirstOrDefault();
+            if (attrColspan != null)
+            {
+                int.TryParse(attrColspan.Value, out colspan);
+            }
+
+            int rowspan = 0;
+
+            var attrRowspan = cellTag.Attributes("rowspan").FirstOrDefault();
+            if (attrRowspan != null)
+            {
+                int.TryParse(attrRowspan.Value, out rowspan);
+            }
+
             var cell = new TableCell
             {
-                Style = new CellStyle(cellStyle, formula, numberFormat, title),
+                Style = new CellStyle(cellStyle, formula, numberFormat, title, colspan, rowspan),
                 Value = ProcessString(cellTag)
             };
 
