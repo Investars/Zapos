@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -111,23 +112,48 @@ namespace Zapos.Printers.Gembox
         private static void PrintSection(ref ExcelWorksheet ws, IEnumerable<TableRow> rows, int rowBegin = 0)
         {
             var rowsInternal = rows.ToArray();
-
             var rowBeginPosition = rowBegin;
 
             for (var rowIndex = 0; rowIndex < rowsInternal.Length; rowIndex++)
             {
                 var row = rowsInternal[rowIndex];
                 var cells = row.Cells.ToArray();
+                var columnIndex = 0;
 
-                for (var columnIndex = 0; columnIndex < cells.Length; columnIndex++)
+                foreach (var cell in cells)
                 {
-                    var cell = cells[columnIndex];
+                    if (ws.Cells[rowBeginPosition + rowIndex, columnIndex].MergedRange == null)
+                    {
+                        if (cell.Style.Colspan > 0 || cell.Style.Rowspan > 0)
+                        {
+                            var firstRow = rowBeginPosition + rowIndex;
+                            var rowsRange = (cell.Style.Rowspan != 0) ? cell.Style.Rowspan - 1 : cell.Style.Rowspan;
+                            var firstColumn = columnIndex;
+                            var columnsRange = (cell.Style.Colspan != 0) ? cell.Style.Colspan - 1 : cell.Style.Colspan;
 
-                    var excelCell = ws.Cells[rowBeginPosition + rowIndex, columnIndex];
+                            ws.Cells
+                                .GetSubrangeAbsolute(firstRow, firstColumn, firstRow + rowsRange, firstColumn + columnsRange)
+                                .Merged = true;
+                        }
+                    }
+                    else
+                    {
+                        while (ws.Cells[rowBeginPosition + rowIndex, columnIndex].MergedRange != null)
+                        {
+                            columnIndex++;
+                        }
+                    }
 
-                    excelCell.Value = cell.Value;
+                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
+                        .Value = cell.Value;
 
-                    excelCell.Style = ConvertStyle(cell.Style);
+                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
+                        .Style = ConvertStyle(cell.Style);
+
+                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
+                        .Style.WrapText = true;
+
+                    columnIndex++;
                 }
             }
         }
@@ -170,6 +196,7 @@ namespace Zapos.Printers.Gembox
             resultStyle.VerticalAlignment = (VerticalAlignmentStyle)style.Style.VAlign.Value;
 
             resultStyle.NumberFormat = style.NumberFormat;
+            resultStyle.WrapText = true;
 
             return resultStyle;
         }

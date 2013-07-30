@@ -6,21 +6,26 @@
         font-size: 28pt;
         text-align: center;
     }
-    .odd { background-color: #c8d197; }
+
+    .odd {
+        background-color: #c8d197;
+    }
+
     .value {
         text-decoration: underline;
         font-style: italic;
         text-align: center;
     }
+
     .name {
         text-align: left;
         color: #eb2138;
         font-weight: bold;
     }
 </style>
- <img src="Content/Images/1.png" style="left: 1px; top: 1px; width: 160px; height: 70px;"/>
- <img src="Content/Images/2.png" style="left: 160px; top: 70px; width: 160px; height: 70px;"/>
- <img src="Content/Images/3.png" style="left: 320px; top: 140px; width: 160px; height: 70px;"/>
+<img src="Content/Images/1.png" style="left: 1px; top: 1px; width: 160px; height: 70px;" />
+<img src="Content/Images/2.png" style="left: 160px; top: 70px; width: 160px; height: 70px;" />
+<img src="Content/Images/3.png" style="left: 320px; top: 140px; width: 160px; height: 70px;" />
 <table>
     <thead class="head">
         <tr>
@@ -30,6 +35,16 @@
         </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>WAAT</td>
+            <td>qweqwe</td>
+            <td>qeqweqw</td>
+        </tr>
+        <tr>
+            <td rowspan="2">WAAT21</td>
+            <td>qweqwe</td>
+            <td>qeqweqw</td>
+        </tr>
         @{ var index = 1; }
         @foreach (var item in Model.Items)
         {
@@ -40,7 +55,8 @@
                 </td>
                 <td class="name">@item.Name</td>
                 <td class="value">@item.Value</td>
-                <td>A<br/>a</td>
+                <td>A<br />
+                    a</td>
             </tr>
 
             index++;
