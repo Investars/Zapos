@@ -123,11 +123,11 @@ namespace Zapos.Printers.Gembox
                 {
                     var cell = cells[columnIndex];
 
-                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
-                      .Value = cell.Value;
+                    var excelCell = ws.Cells[rowBeginPosition + rowIndex, columnIndex];
 
-                    ws.Cells[rowBeginPosition + rowIndex, columnIndex]
-                        .Style = ConvertStyle(cell.Style);
+                    excelCell.Value = cell.Value;
+
+                    excelCell.Style = ConvertStyle(cell.Style);
                 }
             }
         }
