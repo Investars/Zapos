@@ -60,6 +60,7 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
+    <None Include="Zapos.Constructors.Razor.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zapos.Common\Zapos.Common.csproj">

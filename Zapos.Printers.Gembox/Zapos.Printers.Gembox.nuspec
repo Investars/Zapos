@@ -8,12 +8,12 @@
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Printer.Gembox - small part of Zapos, responsible for converting report from abstract document model. Supports file formats: XLSX (XlsxPrinter) and PDF (PdfPrinter).</description>
-	<releaseNotes>Release Notes</releaseNotes>
+    <releaseNotes>Release Notes</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>Export PDF XLSX Razor</tags>
-	<dependencies>
-		<dependency id="Zapos.Common" version="1.13.1.1" />
-		<dependency id="GemBox.Spreadsheet" version="37.3.30.1030" />
-	</dependencies>
+    <dependencies>
+      <dependency id="Zapos.Common" version="1.13.*" />
+      <dependency id="GemBox.Spreadsheet" version="37.3.30.1069" />
+    </dependencies>
   </metadata>
 </package>
