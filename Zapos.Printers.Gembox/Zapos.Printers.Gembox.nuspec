@@ -17,6 +17,6 @@
 	</dependencies>
   </metadata>
   <files>
-    <file src="Zapos.Printers.Gembox\bin\Release\Zapos.Printers.Gembox.dll" target="lib\net40\Zapos.Printers.Gembox.dll"/>
+    <file src="bin\Release\Zapos.Printers.Gembox.dll" target="lib\net40\Zapos.Printers.Gembox.dll"/>
   </files>
 </package>

@@ -19,6 +19,6 @@
 	</dependencies>
   </metadata>
   <files>
-    <file src="Zapos.Constructors.Razor\bin\Release\Zapos.Constructors.Razor.dll" target="lib\net40\Zapos.Constructors.Razor.dll"/>
+    <file src="bin\Release\Zapos.Constructors.Razor.dll" target="lib\net40\Zapos.Constructors.Razor.dll"/>
   </files>
 </package>
