@@ -18,4 +18,7 @@
       <dependency id="Zapos.Common" version="1.13.*" />
 	</dependencies>
   </metadata>
+  <files>
+    <file src="bin\Release\Zapos.Constructors.Razor.dll" target="lib\net40\Zapos.Constructors.Razor.dll"/>
+  </files>
 </package>

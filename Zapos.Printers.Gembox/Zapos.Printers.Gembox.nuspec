@@ -16,4 +16,7 @@
       <dependency id="GemBox.Spreadsheet" version="37.3.30.1069" />
 	</dependencies>
   </metadata>
+  <files>
+    <file src="bin\Release\Zapos.Printers.Gembox.dll" target="lib\net40\Zapos.Printers.Gembox.dll"/>
+  </files>
 </package>
