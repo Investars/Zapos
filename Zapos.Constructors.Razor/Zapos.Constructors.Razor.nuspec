@@ -13,12 +13,9 @@
     <tags>Export Razor</tags>
 	<dependencies>
 		<dependency id="ExCSS" version="1.1.0" />
-		<dependency id="Microsoft.AspNet.Razor" version="2.0.20715.0" />
-		<dependency id="RazorEngine" version="3.2.0" />
-		<dependency id="Zapos.Common" version="1.13.1.0" />
+      <dependency id="Microsoft.AspNet.Razor" version="2.0.30506.0" />
+      <dependency id="RazorEngine" version="3.3.0" />
+      <dependency id="Zapos.Common" version="1.13.*" />
 	</dependencies>
   </metadata>
-  <files>
-    <file src="bin\Release\Zapos.Constructors.Razor.dll" target="lib\net40\Zapos.Constructors.Razor.dll"/>
-  </files>
 </package>

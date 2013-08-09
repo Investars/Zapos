@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web;
+using System.Xml;
 using System.Xml.Linq;
 
 using Zapos.Common.Constructors;
@@ -32,7 +34,7 @@ namespace Zapos.Constructors.Razor.Constructors
 
             var content = generator.Generate(filePath, model);
 
-            var document = XDocument.Parse("<body>" + content + "</body>");
+            var document = XDocument.Parse(string.Concat("<body>", content, "</body>"));
 
             // ReSharper disable PossibleNullReferenceException
 
@@ -282,19 +284,64 @@ namespace Zapos.Constructors.Razor.Constructors
 
             string title = null;
 
-            var attrTitle = cellTag.Attributes("number-format").FirstOrDefault();
+            var attrTitle = cellTag.Attributes("title").FirstOrDefault();
             if (attrTitle != null)
             {
                 title = attrTitle.Value;
             }
 
+            int colspan = 0;
+
+            var attrColspan = cellTag.Attributes("colspan").FirstOrDefault();
+            if (attrColspan != null)
+            {
+                int.TryParse(attrColspan.Value, out colspan);
+            }
+
+            int rowspan = 0;
+
+            var attrRowspan = cellTag.Attributes("rowspan").FirstOrDefault();
+            if (attrRowspan != null)
+            {
+                int.TryParse(attrRowspan.Value, out rowspan);
+            }
+
             var cell = new TableCell
             {
-                Style = new CellStyle(cellStyle, formula, numberFormat, title),
-                Value = cellTag.Value
+                Style = new CellStyle(cellStyle, formula, numberFormat, title, colspan, rowspan),
+                Value = ProcessString(cellTag)
             };
 
             return cell;
+        }
+
+        private static string ProcessString(XContainer element)
+        {
+            var value = element
+                    .Nodes()
+                    .Select(FilterValueNodes)
+                    .Where(x => x != null)
+                    .Select(str => str
+                        .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim(' ', '\t'))
+                        .Aggregate(string.Empty, (result, next) => string.Concat(result, " ", next))
+                        .Substring(1))
+                    .Aggregate(string.Empty, string.Concat);
+
+            return HttpUtility.HtmlDecode(value);
+        }
+
+        private static string FilterValueNodes(XNode node)
+        {
+            switch (node.NodeType)
+            {
+                case XmlNodeType.Text:
+                    return node.ToString();
+                case XmlNodeType.Element:
+                    return ((XElement)node).Name.LocalName.ToLower() == "br" ? "&#013;&#010;" : null;
+                default:
+                    return null;
+            }
         }
 
         private IEnumerable<TableImage> ParseImages(IEnumerable<XElement> imagesTags)

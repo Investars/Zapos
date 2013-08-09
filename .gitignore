@@ -1,7 +1,9 @@
-packages
 *.user
 *.suo
 *.Cache
+*.orig
 
 bin
 obj
+packages
+TestResults
