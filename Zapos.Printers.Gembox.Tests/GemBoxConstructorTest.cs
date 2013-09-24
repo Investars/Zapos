@@ -38,8 +38,6 @@ namespace Zapos.Printers.Gembox.Tests
             {
                 var printer = new XlsxPrinter();
 
-                printer.Init(new Dictionary<string, object> { { "LICENSE_KEY", "FREE-LIMITED-KEY" } });
-
                 using (Stream stream = new FileStream("test.xlsx", FileMode.Create))
                 {
                     printer.Print(stream, tableModel);

@@ -13,7 +13,7 @@
     <tags>Export PDF XLSX Razor</tags>
 	<dependencies>
       <dependency id="Zapos.Common" version="1.13.*" />
-      <dependency id="GemBox.Spreadsheet" version="37.3.30.1069" />
+      <dependency id="GemBox.Spreadsheet" version="37.3.30.1088" />
 	</dependencies>
   </metadata>
 </package>
