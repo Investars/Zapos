@@ -15,12 +15,8 @@ namespace Zapos.Printers.Gembox
     {
         private IDictionary<string, object> _config;
 
-        private string _licenseKey;
-
         protected ExcelFile Print(Table table)
         {
-            SpreadsheetInfo.SetLicense(_licenseKey);
-
             var ef = new ExcelFile();
             var ws = ef.Worksheets.Add("Report");
 
@@ -71,7 +67,6 @@ namespace Zapos.Printers.Gembox
         protected void Init(IDictionary<string, object> config)
         {
             _config = config;
-            _licenseKey = (string)_config["LICENSE_KEY"];
         }
 
         private static int[] CalculateColumnsWidth(params TableRow[][] rowsCollections)
