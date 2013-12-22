@@ -15,6 +15,8 @@ using Zapos.Constructors.Razor.Parsers;
 
 namespace Zapos.Constructors.Razor.Constructors
 {
+    using System.Globalization;
+
     public class RazorGridConstructor : IGridConstructor
     {
         private IDictionary<string, object> _config;
@@ -28,7 +30,7 @@ namespace Zapos.Constructors.Razor.Constructors
             _resolvePath = (Func<string, string>)_config["RESOLVE_PATH_ACTION"];
         }
 
-        public Table CreateTable<TModel>(string filePath, TModel model)
+        public IEnumerable<Table> CreateTables<TModel>(string filePath, TModel model)
         {
             var generator = new RazorTextGenerator();
 
@@ -56,17 +58,16 @@ namespace Zapos.Constructors.Razor.Constructors
                 classes = new Dictionary<string, BaseStyle>();
             }
 
-            var tables = ParseTables(tableTags, classes);
+            var tables = ParseTables(tableTags, classes).ToArray();
 
             var imagesTags = document.Root.Elements("img");
 
             var images = ParseImages(imagesTags);
 
-            // TODO: Remove stub.
             var table = tables.First();
             table.Images = images;
 
-            return table;
+            return tables;
         }
 
         private static IEnumerable<BaseStyle> GetStylesByClasses(IEnumerable<KeyValuePair<string, BaseStyle>> classes, XAttribute attrClass)
@@ -99,6 +100,8 @@ namespace Zapos.Constructors.Razor.Constructors
 
         private static IEnumerable<Table> ParseTables(IEnumerable<XElement> tableTags, IDictionary<string, BaseStyle> classes)
         {
+            var tableIndex = 0;
+
             foreach (var tableTag in tableTags)
             {
                 var tableStyle = StyleFactory.DefaultStyle;
@@ -108,6 +111,9 @@ namespace Zapos.Constructors.Razor.Constructors
                     var tableClasses = GetStylesByClasses(classes, attrClass);
                     tableStyle = StyleFactory.MergeStyles(tableClasses);
                 }
+
+                var attrTitle = tableTag.Attributes("title").FirstOrDefault();
+                var tableName = attrTitle != null ? attrTitle.Value : tableIndex.ToString(CultureInfo.InvariantCulture);
 
                 TableBody tableBody;
                 var tableBodyTag = tableTag.Elements("tbody").FirstOrDefault();
@@ -130,8 +136,12 @@ namespace Zapos.Constructors.Razor.Constructors
                         Body = tableBody,
                         Head = tableHead,
 
-                        Style = tableStyle
+                        Style = tableStyle,
+
+                        Name = tableName
                     };
+
+                tableIndex++;
 
                 yield return table;
             }
@@ -315,7 +325,7 @@ namespace Zapos.Constructors.Razor.Constructors
             return cell;
         }
 
-        private static string ProcessString(XContainer element)
+        private static object ProcessString(XContainer element)
         {
             var value = element
                     .Nodes()
@@ -328,7 +338,21 @@ namespace Zapos.Constructors.Razor.Constructors
                         .Substring(1))
                     .Aggregate(string.Empty, string.Concat);
 
-            return HttpUtility.HtmlDecode(value);
+            var decodedValue = HttpUtility.HtmlDecode(value);
+
+            double numberValue;
+            if (double.TryParse(decodedValue, out numberValue))
+            {
+                return numberValue;
+            }
+
+            DateTime dateValue;
+            if (DateTime.TryParse(decodedValue, out dateValue))
+            {
+                return dateValue;
+            }
+
+            return decodedValue;
         }
 
         private static string FilterValueNodes(XNode node)
@@ -336,11 +360,11 @@ namespace Zapos.Constructors.Razor.Constructors
             switch (node.NodeType)
             {
                 case XmlNodeType.Text:
-                    return node.ToString();
+                return node.ToString();
                 case XmlNodeType.Element:
-                    return ((XElement)node).Name.LocalName.ToLower() == "br" ? "&#013;&#010;" : null;
+                return ((XElement)node).Name.LocalName.ToLower() == "br" ? "&#013;&#010;" : null;
                 default:
-                    return null;
+                return null;
             }
         }
 

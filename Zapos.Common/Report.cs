@@ -30,7 +30,7 @@ namespace Zapos.Common
                 construnctor.Init(_constructorConfig);
             }
 
-            var table = construnctor.CreateTable(filePath, model);
+            var tables = construnctor.CreateTables(filePath, model);
 
             var printer = new TPrinter();
 
@@ -39,7 +39,7 @@ namespace Zapos.Common
                 printer.Init(_printerConfig);
             }
 
-            printer.Print(stream, table);
+            printer.Print(stream, tables);
         }
     }
 }

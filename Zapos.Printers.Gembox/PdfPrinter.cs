@@ -10,9 +10,9 @@ namespace Zapos.Printers.Gembox
 {
     public class PdfPrinter : GemboxUniversalPrinter, ITablePrinter
     {
-        public void Print(Stream stream, Table table)
+        public void Print(Stream stream, IEnumerable<Table> tables)
         {
-            var preFile = Print(table);
+            var preFile = Print(tables);
             preFile.Save(stream, SaveOptions.PdfDefault);
         }
 

@@ -8,6 +8,8 @@ using Zapos.Constructors.Razor.Tests.TestModels;
 
 namespace Zapos.Printers.Gembox.Tests
 {
+    using Zapos.Common.DocumentModel;
+
     [TestClass]
     public class GemBoxConstructorTest
     {
@@ -32,7 +34,7 @@ namespace Zapos.Printers.Gembox.Tests
 
             var constructor = new RazorGridConstructor();
             constructor.Init(new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } });
-            var tableModel = constructor.CreateTable(@"Content\SimpleReport.cshtml", model);
+            IEnumerable<Table> tables = constructor.CreateTables(@"Content\SimpleReport.cshtml", model);
 
             try
             {
@@ -40,7 +42,7 @@ namespace Zapos.Printers.Gembox.Tests
 
                 using (Stream stream = new FileStream("test.xlsx", FileMode.Create))
                 {
-                    printer.Print(stream, tableModel);
+                    printer.Print(stream, tables);
 
                     Assert.AreNotEqual(stream.Length, 0);
                 }

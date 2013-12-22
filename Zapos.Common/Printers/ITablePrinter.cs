@@ -7,7 +7,7 @@ namespace Zapos.Common.Printers
 {
     public interface ITablePrinter
     {
-        void Print(Stream stream, Table table);
+        void Print(Stream stream, IEnumerable<Table> table);
 
         void Init(IDictionary<string, object> config);
     }

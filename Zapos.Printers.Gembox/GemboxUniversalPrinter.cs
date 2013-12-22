@@ -15,50 +15,54 @@ namespace Zapos.Printers.Gembox
     {
         private IDictionary<string, object> _config;
 
-        protected ExcelFile Print(Table table)
+        protected static ExcelFile Print(IEnumerable<Table> tables)
         {
             var ef = new ExcelFile();
-            var ws = ef.Worksheets.Add("Report");
 
-            if (table.Head != null)
+            foreach (var table in tables)
             {
-                var rowsHeight = CalculateRowsHeight(table.Head.Rows, table.Body.Rows);
-                var columnsWidth = CalculateColumnsWidth(table.Head.Rows, table.Body.Rows);
+                var ws = ef.Worksheets.Add(table.Name);
 
-                for (var index = 0; index < columnsWidth.Length; index++)
+                if (table.Head != null)
                 {
-                    ws.Columns[index].Width = columnsWidth[index] * 256;
+                    var rowsHeight = CalculateRowsHeight(table.Head.Rows, table.Body.Rows);
+                    var columnsWidth = CalculateColumnsWidth(table.Head.Rows, table.Body.Rows);
+
+                    for (var index = 0; index < columnsWidth.Length; index++)
+                    {
+                        ws.Columns[index].Width = columnsWidth[index] * 256;
+                    }
+
+                    for (var index = 0; index < rowsHeight.Length; index++)
+                    {
+                        ws.Rows[index].Height = rowsHeight[index] * 20;
+                    }
+
+                    PrintSection(ref ws, table.Head.Rows);
+                    PrintSection(ref ws, table.Body.Rows, table.Head.Rows.Length);
+                }
+                else
+                {
+                    var rowsHeight = CalculateRowsHeight(table.Body.Rows);
+                    var columnsWidth = CalculateColumnsWidth(table.Body.Rows);
+
+                    for (var index = 0; index < columnsWidth.Length; index++)
+                    {
+                        ws.Columns[index].Width = columnsWidth[index] * 256;
+                    }
+
+                    for (var index = 0; index < rowsHeight.Length; index++)
+                    {
+                        ws.Rows[index].Height = rowsHeight[index] * 20;
+                    }
+
+                    PrintSection(ref ws, table.Body.Rows);
                 }
 
-                for (var index = 0; index < rowsHeight.Length; index++)
+                foreach (var image in table.Images)
                 {
-                    ws.Rows[index].Height = rowsHeight[index] * 20;
+                    ws.Pictures.Add(image.ImagePath, new Rectangle(image.Left, image.Top, image.Width, image.Height));
                 }
-
-                PrintSection(ref ws, table.Head.Rows);
-                PrintSection(ref ws, table.Body.Rows, table.Head.Rows.Length);
-            }
-            else
-            {
-                var rowsHeight = CalculateRowsHeight(table.Body.Rows);
-                var columnsWidth = CalculateColumnsWidth(table.Body.Rows);
-
-                for (var index = 0; index < columnsWidth.Length; index++)
-                {
-                    ws.Columns[index].Width = columnsWidth[index] * 256;
-                }
-
-                for (var index = 0; index < rowsHeight.Length; index++)
-                {
-                    ws.Rows[index].Height = rowsHeight[index] * 20;
-                }
-
-                PrintSection(ref ws, table.Body.Rows);
-            }
-
-            foreach (var image in table.Images)
-            {
-                ws.Pictures.Add(image.ImagePath, new Rectangle(image.Left, image.Top, image.Width, image.Height));
             }
 
             return ef;
@@ -200,15 +204,15 @@ namespace Zapos.Printers.Gembox
             switch (borderStyle)
             {
                 case BorderStyle.Dashed:
-                    return LineStyle.Dashed;
+                return LineStyle.Dashed;
                 case BorderStyle.Dotted:
-                    return LineStyle.Dotted;
+                return LineStyle.Dotted;
                 case BorderStyle.Double:
-                    return LineStyle.Double;
+                return LineStyle.Double;
                 case BorderStyle.Solid:
-                    return LineStyle.Thin;
+                return LineStyle.Thin;
                 default:
-                    return LineStyle.None;
+                return LineStyle.None;
             }
         }
     }
