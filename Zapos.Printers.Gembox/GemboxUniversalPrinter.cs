@@ -21,7 +21,15 @@ namespace Zapos.Printers.Gembox
 
             foreach (var table in tables)
             {
-                var ws = ef.Worksheets.Add(table.Name);
+                var worksheetName = table.Name;
+
+                // Work sheet name can't be over 31 characters.
+                if (worksheetName.Length > 31)
+                {
+                    worksheetName = worksheetName.Substring(0, 28) + "...";
+                }
+
+                var ws = ef.Worksheets.Add(worksheetName);
 
                 if (table.Head != null)
                 {
