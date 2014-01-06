@@ -198,8 +198,40 @@ namespace Zapos.Printers.Gembox
             resultStyle.Font.UnderlineStyle = style.Style.IsUnderline ? UnderlineStyle.Single : UnderlineStyle.None;
             resultStyle.Font.Weight = style.Style.IsBold ? ExcelFont.BoldWeight : ExcelFont.NormalWeight;
 
-            resultStyle.HorizontalAlignment = (HorizontalAlignmentStyle)style.Style.HAlign.Value;
-            resultStyle.VerticalAlignment = (VerticalAlignmentStyle)style.Style.VAlign.Value;
+            switch (style.Style.HAlign.Value)
+            {
+                case HAlign.Center:
+                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Center;
+                break;
+                
+                case HAlign.Justify:
+                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Justify;
+                break;
+                
+                case HAlign.Left:
+                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Left;
+                break;
+
+                case HAlign.Right:
+                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Right;
+                break;
+            }
+
+
+            switch (style.Style.VAlign.Value)
+            {
+                case VAlign.Bottom:
+                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Bottom;
+                break;
+
+                case VAlign.Middle:
+                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Center;
+                break;
+
+                case VAlign.Top:
+                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Top;
+                break;
+            }
 
             resultStyle.NumberFormat = style.NumberFormat;
             resultStyle.WrapText = true;
@@ -213,12 +245,16 @@ namespace Zapos.Printers.Gembox
             {
                 case BorderStyle.Dashed:
                 return LineStyle.Dashed;
+
                 case BorderStyle.Dotted:
                 return LineStyle.Dotted;
+
                 case BorderStyle.Double:
                 return LineStyle.Double;
+
                 case BorderStyle.Solid:
                 return LineStyle.Thin;
+
                 default:
                 return LineStyle.None;
             }

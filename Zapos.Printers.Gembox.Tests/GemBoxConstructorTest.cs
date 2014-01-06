@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GemBox.Spreadsheet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Zapos.Constructors.Razor.Constructors;
 using Zapos.Constructors.Razor.Tests.TestModels;
 
 namespace Zapos.Printers.Gembox.Tests
 {
-    using Zapos.Common.DocumentModel;
-
     [TestClass]
     public class GemBoxConstructorTest
     {
@@ -34,13 +33,21 @@ namespace Zapos.Printers.Gembox.Tests
 
             var constructor = new RazorGridConstructor();
             constructor.Init(new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } });
-            IEnumerable<Table> tables = constructor.CreateTables(@"Content\SimpleReport.cshtml", model);
+            var tables = constructor.CreateTables(@"Content\SimpleReport.cshtml", model);
 
             try
             {
+                try
+                {
+                    SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
+                }
+                catch
+                {
+                }
+
                 var printer = new XlsxPrinter();
 
-                using (Stream stream = new FileStream("test.xlsx", FileMode.Create))
+                using (var stream = new FileStream("test.xlsx", FileMode.Create, FileAccess.ReadWrite))
                 {
                     printer.Print(stream, tables);
 
@@ -54,7 +61,7 @@ namespace Zapos.Printers.Gembox.Tests
             {
                 if (File.Exists("test.xlsx"))
                 {
-                    File.Delete("test.xlsx");
+                    //File.Delete("test.xlsx");
                 }
             }
         }
