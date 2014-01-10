@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
 using GemBox.Spreadsheet;
+
 using Zapos.Common.DocumentModel;
 using Zapos.Common.Styles;
 
@@ -13,8 +15,6 @@ namespace Zapos.Printers.Gembox
 {
     public abstract class GemboxUniversalPrinter
     {
-        private IDictionary<string, object> _config;
-
         protected static ExcelFile Print(IEnumerable<Table> tables)
         {
             var ef = new ExcelFile();
@@ -38,12 +38,20 @@ namespace Zapos.Printers.Gembox
 
                     for (var index = 0; index < columnsWidth.Length; index++)
                     {
-                        ws.Columns[index].Width = columnsWidth[index] * 256;
+                        var i = columnsWidth[index];
+                        if (i != null)
+                        {
+                            ws.Columns[index].Width = i.Value * 256;
+                        }
                     }
 
                     for (var index = 0; index < rowsHeight.Length; index++)
                     {
-                        ws.Rows[index].Height = rowsHeight[index] * 20;
+                        var row = rowsHeight[index];
+                        if (row.HasValue)
+                        {
+                            ws.Rows[index].Height = row.Value * 20;
+                        }
                     }
 
                     PrintSection(ref ws, table.Head.Rows);
@@ -56,32 +64,45 @@ namespace Zapos.Printers.Gembox
 
                     for (var index = 0; index < columnsWidth.Length; index++)
                     {
-                        ws.Columns[index].Width = columnsWidth[index] * 256;
+                        var column = columnsWidth[index];
+                        if (column != null)
+                        {
+                            ws.Columns[index].Width = column.Value * 256;
+                        }
                     }
 
                     for (var index = 0; index < rowsHeight.Length; index++)
                     {
-                        ws.Rows[index].Height = rowsHeight[index] * 20;
+                        var row = rowsHeight[index];
+                        if (row.HasValue)
+                        {
+                            ws.Rows[index].Height = row.Value * 20;
+                        }
                     }
 
                     PrintSection(ref ws, table.Body.Rows);
                 }
 
-                foreach (var image in table.Images)
+                if (table.Images != null)
                 {
-                    ws.Pictures.Add(image.ImagePath, new Rectangle(image.Left, image.Top, image.Width, image.Height));
+                    foreach (var image in table.Images)
+                    {
+                        ws.Pictures.Add(
+                            image.ImagePath,
+                            new Rectangle(image.Left, image.Top, image.Width, image.Height));
+                    }
                 }
             }
 
             return ef;
         }
 
+        // ReSharper disable once UnusedParameter.Global
         protected void Init(IDictionary<string, object> config)
         {
-            _config = config;
         }
 
-        private static int[] CalculateColumnsWidth(params TableRow[][] rowsCollections)
+        private static int?[] CalculateColumnsWidth(params TableRow[][] rowsCollections)
         {
             var rows = rowsCollections.SelectMany(collection => collection).ToArray();
 
@@ -95,11 +116,17 @@ namespace Zapos.Printers.Gembox
                                 {
                                     try
                                     {
-                                        return row.Cells[index].Style.Style.Width;
+                                        var width = row.Cells[index].Style.Style.Width;
+                                        if (!width.HasValue)
+                                        {
+                                            return null;
+                                        }
+
+                                        return width;
                                     }
-                                    catch (System.IndexOutOfRangeException)
+                                    catch (IndexOutOfRangeException)
                                     {
-                                        return 0;
+                                        return null;
                                     }
                                 }))
                             .ToArray();
@@ -107,12 +134,25 @@ namespace Zapos.Printers.Gembox
             return result;
         }
 
-        private static int[] CalculateRowsHeight(params TableRow[][] rowsCollections)
+        private static int?[] CalculateRowsHeight(params TableRow[][] rowsCollections)
         {
             var rows = rowsCollections.SelectMany(collection => collection).ToArray();
-            var result = rows.Select(row => row.Cells.AsParallel().Max(cell => (int)cell.Style.Style.Height)).ToArray();
+            var result = new List<int?>();
 
-            return result;
+            foreach (var row in rows)
+            {
+                var cellsWithSetHeight = row.Cells.AsParallel().Where(cell => cell.Style.Style.Height.HasValue);
+                if (cellsWithSetHeight.Any())
+                {
+                    result.Add(cellsWithSetHeight.Max(cell => (int)cell.Style.Style.Height));
+                }
+                else
+                {
+                    result.Add(null);
+                }
+            }
+
+            return result.ToArray();
         }
 
         private static void PrintSection(ref ExcelWorksheet ws, IEnumerable<TableRow> rows, int rowBegin = 0)
@@ -167,79 +207,104 @@ namespace Zapos.Printers.Gembox
         private static GemBoxCellStyle ConvertStyle(CellStyle style)
         {
             var resultStyle = new GemBoxCellStyle();
-            resultStyle.Borders.SetBorders(
-                MultipleBorders.Top,
-                style.Style.BorderTopColor,
-                ConvertLineStyle(style.Style.BorderTopStyle));
 
-            resultStyle.Borders.SetBorders(
-                MultipleBorders.Right,
-                style.Style.BorderRightColor,
-                ConvertLineStyle(style.Style.BorderRightStyle));
-
-            resultStyle.Borders.SetBorders(
-                MultipleBorders.Bottom,
-                style.Style.BorderBottomColor,
-                ConvertLineStyle(style.Style.BorderBottomStyle));
-
-            resultStyle.Borders.SetBorders(
-                MultipleBorders.Left,
-                style.Style.BorderLeftColor,
-                ConvertLineStyle(style.Style.BorderLeftStyle));
-
-            resultStyle.FillPattern.PatternStyle = FillPatternStyle.Solid;
-            resultStyle.FillPattern.PatternForegroundColor = style.Style.BackgroundColor;
-
-            resultStyle.Font.Color = style.Style.Color.Value;
-            resultStyle.Font.Italic = style.Style.IsItalic;
-            resultStyle.Font.Name = style.Style.Font;
-            resultStyle.Font.Size = style.Style.FontSize * 20;
-            resultStyle.Font.Strikeout = style.Style.IsLineThrough;
-            resultStyle.Font.UnderlineStyle = style.Style.IsUnderline ? UnderlineStyle.Single : UnderlineStyle.None;
-            resultStyle.Font.Weight = style.Style.IsBold ? ExcelFont.BoldWeight : ExcelFont.NormalWeight;
-
-            switch (style.Style.HAlign.Value)
+            if (style.Style.BorderTopColor.HasValue && style.Style.BorderTopStyle.HasValue)
             {
-                case HAlign.Center:
-                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Center;
-                break;
-                
-                case HAlign.Justify:
-                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Justify;
-                break;
-                
-                case HAlign.Left:
-                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Left;
-                break;
-
-                case HAlign.Right:
-                resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Right;
-                break;
+                resultStyle.Borders.SetBorders(
+                    MultipleBorders.Top,
+                    style.Style.BorderTopColor,
+                    ConvertLineStyle(style.Style.BorderTopStyle));
             }
 
-
-            switch (style.Style.VAlign.Value)
+            if (style.Style.BorderRightColor.HasValue && style.Style.BorderRightStyle.HasValue)
             {
-                case VAlign.Bottom:
-                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Bottom;
-                break;
-
-                case VAlign.Middle:
-                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Center;
-                break;
-
-                case VAlign.Top:
-                resultStyle.VerticalAlignment = VerticalAlignmentStyle.Top;
-                break;
+                resultStyle.Borders.SetBorders(
+                    MultipleBorders.Right,
+                    style.Style.BorderRightColor,
+                    ConvertLineStyle(style.Style.BorderRightStyle));
             }
 
-            resultStyle.NumberFormat = style.NumberFormat;
+            if (style.Style.BorderBottomColor.HasValue && style.Style.BorderBottomStyle.HasValue)
+            {
+                resultStyle.Borders.SetBorders(
+                    MultipleBorders.Bottom,
+                    style.Style.BorderBottomColor,
+                    ConvertLineStyle(style.Style.BorderBottomStyle));
+            }
+
+            if (style.Style.BorderLeftColor.HasValue && style.Style.BorderLeftStyle.HasValue)
+            {
+                resultStyle.Borders.SetBorders(
+                    MultipleBorders.Left,
+                    style.Style.BorderLeftColor,
+                    ConvertLineStyle(style.Style.BorderLeftStyle));
+            }
+
+            SetValueHelper(style.Style.BackgroundColor, value =>
+            {
+                resultStyle.FillPattern.PatternStyle = FillPatternStyle.Solid;
+                resultStyle.FillPattern.PatternForegroundColor = value;
+            });
+
+            SetValueHelper(style.Style.Color, value => { resultStyle.Font.Color = value; });
+            SetValueHelper(style.Style.IsItalic, value => { resultStyle.Font.Italic = value; });
+            SetValueHelper(style.Style.Font, value => { resultStyle.Font.Name = value; });
+            SetValueHelper(style.Style.FontSize, value => { resultStyle.Font.Size = value * 20; });
+            SetValueHelper(style.Style.IsLineThrough, value => { resultStyle.Font.Strikeout = value; });
+            SetValueHelper(style.Style.IsUnderline, value => { resultStyle.Font.UnderlineStyle = value ? UnderlineStyle.Single : UnderlineStyle.None; });
+            SetValueHelper(style.Style.IsBold, value => { resultStyle.Font.Weight = value ? ExcelFont.BoldWeight : ExcelFont.NormalWeight; });
+
+            if (style.Style.HAlign.HasValue)
+            {
+                switch (style.Style.HAlign.Value)
+                {
+                    case HAlign.Center:
+                    resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Center;
+                    break;
+
+                    case HAlign.Justify:
+                    resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Justify;
+                    break;
+
+                    case HAlign.Left:
+                    resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Left;
+                    break;
+
+                    case HAlign.Right:
+                    resultStyle.HorizontalAlignment = HorizontalAlignmentStyle.Right;
+                    break;
+                }
+            }
+
+            if (style.Style.VAlign.HasValue)
+            {
+                switch (style.Style.VAlign.Value)
+                {
+                    case VAlign.Bottom:
+                    resultStyle.VerticalAlignment = VerticalAlignmentStyle.Bottom;
+                    break;
+
+                    case VAlign.Middle:
+                    resultStyle.VerticalAlignment = VerticalAlignmentStyle.Center;
+                    break;
+
+                    case VAlign.Top:
+                    resultStyle.VerticalAlignment = VerticalAlignmentStyle.Top;
+                    break;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(style.NumberFormat))
+            {
+                resultStyle.NumberFormat = style.NumberFormat;
+            }
+
             resultStyle.WrapText = true;
 
             return resultStyle;
         }
 
-        private static LineStyle ConvertLineStyle(BorderStyle? borderStyle)
+        private static LineStyle ConvertLineStyle(BorderStyle borderStyle)
         {
             switch (borderStyle)
             {
@@ -257,6 +322,14 @@ namespace Zapos.Printers.Gembox
 
                 default:
                 return LineStyle.None;
+            }
+        }
+
+        private static void SetValueHelper<T>(InheritStyle<T> value, Action<T> action)
+        {
+            if (value.HasValue)
+            {
+                action(value.Value);
             }
         }
     }

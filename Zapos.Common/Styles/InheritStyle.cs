@@ -1,88 +1,100 @@
-﻿namespace Zapos.Common.Styles
+﻿using System;
+
+namespace Zapos.Common.Styles
 {
+    [Serializable]
     public struct InheritStyle<T>
     {
-        private readonly T _baseValue;
+        private readonly bool _hasValue;
 
-        private T _value;
+        private readonly T _value;
 
-        private bool _isBase;
-
-        public InheritStyle(T baseValue)
+        public bool HasValue
         {
-            _baseValue = baseValue;
-            _value = baseValue;
-            _isBase = true;
-        }
-
-        public InheritStyle(T baseValue, T value)
-        {
-            _baseValue = baseValue;
-            _value = value;
-            _isBase = false;
+            get
+            {
+                return this._hasValue;
+            }
         }
 
         public T Value
         {
             get
             {
-                return _value;
-            }
-
-            set
-            {
-                if (!_value.Equals(value))
+                if (!this.HasValue)
                 {
-                    _value = value;
-                    _isBase = false;
+                    throw new InvalidOperationException("Style is default.");
                 }
+
+                return this._value;
             }
         }
 
-        public bool IsBase
+        public InheritStyle(T value)
         {
-            get { return _isBase; }
-            set { _isBase = value; }
+            _value = value;
+            _hasValue = true;
         }
 
-        public override bool Equals(object obj)
+        public static implicit operator InheritStyle<T>(T value)
         {
-            if (obj is InheritStyle<T>)
+            return new InheritStyle<T>(value);
+        }
+
+        /// <exception cref="InvalidOperationException">If Style have a default value</exception>
+        public static implicit operator T(InheritStyle<T> value)
+        {
+            if (!value.HasValue)
             {
-                return this == (InheritStyle<T>)obj;
+                throw new InvalidOperationException("Style is default.");
             }
 
-            if (obj is T)
+            return value.Value;
+        }
+
+        public T GetValueOrDefault()
+        {
+            return this._value;
+        }
+
+        public T GetValueOrDefault(T defaultValue)
+        {
+            return this.HasValue ? this._value : defaultValue;
+        }
+
+        public override bool Equals(object other)
+        {
+            if (!this.HasValue)
             {
-                return this == (T)obj;
+                return other == null;
             }
 
-            return false;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this._value.Equals(other);
         }
 
         public override int GetHashCode()
         {
-            return _value.GetHashCode();
+            // ReSharper disable once NonReadonlyFieldInGetHashCode
+            return !this.HasValue ? 0 : this._value.GetHashCode();
         }
 
-        public void ResetToBase()
+        public override string ToString()
         {
-            _value = _baseValue;
-            _isBase = true;
-        }
-
-        public static implicit operator T(InheritStyle<T> x)
-        {
-            return x._value;
-        }
-
-        public static implicit operator InheritStyle<T>(T x)
-        {
-            return new InheritStyle<T>(default(T), x);
+            return this.HasValue ? this._value.ToString() : string.Empty;
         }
 
         public static bool operator ==(InheritStyle<T> a, InheritStyle<T> b)
         {
+            if (!a._hasValue || !b._hasValue)
+            {
+                return false;
+            }
+
             return a._value.Equals(b._value);
         }
 
@@ -93,6 +105,11 @@
 
         public static bool operator ==(T a, InheritStyle<T> b)
         {
+            if (!b._hasValue)
+            {
+                return false;
+            }
+
             return a.Equals(b._value);
         }
 
@@ -103,17 +120,17 @@
 
         public static bool operator ==(InheritStyle<T> a, T b)
         {
+            if (!a._hasValue)
+            {
+                return false;
+            }
+
             return a._value.Equals(b);
         }
 
         public static bool operator !=(InheritStyle<T> a, T b)
         {
             return !(a == b);
-        }
-
-        public override string ToString()
-        {
-            return _value.ToString();
         }
     }
 }

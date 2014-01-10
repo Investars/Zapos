@@ -51,7 +51,7 @@ namespace Zapos.Constructors.Razor.Constructors
             if (styleTag != null)
             {
                 var parser = new CssParser();
-                classes = parser.ParceCss(styleTag.Value);
+                classes = CssParser.ParceCss(styleTag.Value);
             }
             else
             {
