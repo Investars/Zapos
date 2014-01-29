@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using ExCSS.Model;
 
@@ -30,7 +29,7 @@ namespace Zapos.Constructors.Razor.Parsers
                 { "font-weight", StyleConverters.FontWeightConverter }
             };
 
-        public StyleFactory()
+        private StyleFactory()
         {
             Style = DefaultStyle;
         }
@@ -59,36 +58,38 @@ namespace Zapos.Constructors.Razor.Parsers
         {
             get
             {
-                return new BaseStyle
-                {
-                    Id = Guid.Parse("220B1E42-DE05-463D-B322-23D9F26F16A3"),
+                var defaultStyle = new BaseStyle
+                                       {
+                                           Id = Guid.Parse("220B1E42-DE05-463D-B322-23D9F26F16A3"),
 
-                    Font = new InheritStyle<string>("Times New Roman"),
-                    BackgroundColor = new InheritStyle<Color>(Color.White),
-                    BorderBottomColor = new InheritStyle<Color>(Color.Black),
-                    BorderBottomStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
-                    BorderBottomWidth = new InheritStyle<ushort>(1),
-                    BorderLeftColor = new InheritStyle<Color>(Color.Black),
-                    BorderLeftStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
-                    BorderLeftWidth = new InheritStyle<ushort>(1),
-                    BorderRightColor = new InheritStyle<Color>(Color.Black),
-                    BorderRightStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
-                    BorderRightWidth = new InheritStyle<ushort>(1),
-                    BorderTopColor = new InheritStyle<Color>(Color.Black),
-                    BorderTopStyle = new InheritStyle<BorderStyle>(BorderStyle.None),
-                    BorderTopWidth = new InheritStyle<ushort>(1),
-                    Color = new InheritStyle<Color>(Color.Black),
-                    FontSize = new InheritStyle<ushort>(14),
-                    HAlign = new InheritStyle<HAlign>(HAlign.Left),
-                    Height = new InheritStyle<ushort>(20),
-                    VAlign = new InheritStyle<VAlign>(VAlign.Bottom),
-                    Width = new InheritStyle<ushort>(50),
-                    IsBold = new InheritStyle<bool>(false),
-                    IsItalic = new InheritStyle<bool>(false),
-                    IsLineThrough = new InheritStyle<bool>(false),
-                    IsOverline = new InheritStyle<bool>(false),
-                    IsUnderline = new InheritStyle<bool>(false)
-                };
+                                           //Font = new InheritStyle<string>(true, "Times New Roman"),
+                                           //BackgroundColor = new InheritStyle<Color>(true, Color.White),
+                                           //BorderBottomColor = new InheritStyle<Color>(true, Color.Black),
+                                           //BorderBottomStyle = new InheritStyle<BorderStyle>(true, BorderStyle.Solid),
+                                           //BorderBottomWidth = new InheritStyle<ushort>(true, 1),
+                                           //BorderLeftColor = new InheritStyle<Color>(true, Color.Black),
+                                           //BorderLeftStyle = new InheritStyle<BorderStyle>(true, BorderStyle.Solid),
+                                           //BorderLeftWidth = new InheritStyle<ushort>(true, 1),
+                                           //BorderRightColor = new InheritStyle<Color>(true, Color.Black),
+                                           //BorderRightStyle = new InheritStyle<BorderStyle>(true, BorderStyle.Solid),
+                                           //BorderRightWidth = new InheritStyle<ushort>(true, 1),
+                                           //BorderTopColor = new InheritStyle<Color>(true, Color.Black),
+                                           //BorderTopStyle = new InheritStyle<BorderStyle>(true, BorderStyle.Solid),
+                                           //BorderTopWidth = new InheritStyle<ushort>(true, 1),
+                                           //Color = new InheritStyle<Color>(true, Color.Black),
+                                           //FontSize = new InheritStyle<ushort>(true, 14),
+                                           //HAlign = new InheritStyle<HAlign>(true, HAlign.Left),
+                                           //Height = new InheritStyle<ushort>(true, 20),
+                                           //VAlign = new InheritStyle<VAlign>(true, VAlign.Bottom),
+                                           //Width = new InheritStyle<ushort>(true, 50),
+                                           //IsBold = new InheritStyle<bool>(true, false),
+                                           //IsItalic = new InheritStyle<bool>(true, false),
+                                           //IsLineThrough = new InheritStyle<bool>(true, false),
+                                           //IsOverline = new InheritStyle<bool>(true, false),
+                                           //IsUnderline = new InheritStyle<bool>(true, false)
+                                       };
+
+                return defaultStyle;
             }
         }
 
@@ -108,151 +109,151 @@ namespace Zapos.Constructors.Razor.Parsers
         {
             var isNewId = false;
 
-            if (!mutations.Color.IsBase && baseStyle.Color != mutations.Color)
+            if (mutations.Color.HasValue && baseStyle.Color != mutations.Color)
             {
                 isNewId = true;
                 baseStyle.Color = mutations.Color;
             }
 
-            if (!mutations.Width.IsBase && baseStyle.Width != mutations.Width)
+            if (mutations.Width.HasValue && baseStyle.Width != mutations.Width)
             {
                 isNewId = true;
                 baseStyle.Width = mutations.Width;
             }
 
-            if (!mutations.Height.IsBase && baseStyle.Height != mutations.Height)
+            if (mutations.Height.HasValue && baseStyle.Height != mutations.Height)
             {
                 isNewId = true;
                 baseStyle.Height = mutations.Height;
             }
 
-            if (!mutations.BackgroundColor.IsBase && baseStyle.BackgroundColor != mutations.BackgroundColor)
+            if (mutations.BackgroundColor.HasValue && baseStyle.BackgroundColor != mutations.BackgroundColor)
             {
                 isNewId = true;
                 baseStyle.BackgroundColor = mutations.BackgroundColor;
             }
 
-            if (!mutations.BorderLeftColor.IsBase && baseStyle.BorderLeftColor != mutations.BorderLeftColor)
+            if (mutations.BorderLeftColor.HasValue && baseStyle.BorderLeftColor != mutations.BorderLeftColor)
             {
                 isNewId = true;
                 baseStyle.BorderLeftColor = mutations.BorderLeftColor;
             }
 
-            if (!mutations.BorderLeftWidth.IsBase && baseStyle.BorderLeftWidth != mutations.BorderLeftWidth)
+            if (mutations.BorderLeftWidth.HasValue && baseStyle.BorderLeftWidth != mutations.BorderLeftWidth)
             {
                 isNewId = true;
                 baseStyle.BorderLeftWidth = mutations.BorderLeftWidth;
             }
 
-            if (!mutations.BorderRightColor.IsBase && baseStyle.BorderRightColor != mutations.BorderRightColor)
+            if (mutations.BorderRightColor.HasValue && baseStyle.BorderRightColor != mutations.BorderRightColor)
             {
                 isNewId = true;
                 baseStyle.BorderRightColor = mutations.BorderRightColor;
             }
 
-            if (!mutations.BorderTopColor.IsBase && baseStyle.BorderTopColor != mutations.BorderTopColor)
+            if (mutations.BorderTopColor.HasValue && baseStyle.BorderTopColor != mutations.BorderTopColor)
             {
                 isNewId = true;
                 baseStyle.BorderTopColor = mutations.BorderTopColor;
             }
 
-            if (!mutations.BorderBottomColor.IsBase && baseStyle.BorderBottomColor != mutations.BorderBottomColor)
+            if (mutations.BorderBottomColor.HasValue && baseStyle.BorderBottomColor != mutations.BorderBottomColor)
             {
                 isNewId = true;
                 baseStyle.BorderBottomColor = mutations.BorderBottomColor;
             }
 
-            if (!mutations.BorderRightWidth.IsBase && baseStyle.BorderRightWidth != mutations.BorderRightWidth)
+            if (mutations.BorderRightWidth.HasValue && baseStyle.BorderRightWidth != mutations.BorderRightWidth)
             {
                 isNewId = true;
                 baseStyle.BorderRightWidth = mutations.BorderRightWidth;
             }
 
-            if (!mutations.BorderTopWidth.IsBase && baseStyle.BorderTopWidth != mutations.BorderTopWidth)
+            if (mutations.BorderTopWidth.HasValue && baseStyle.BorderTopWidth != mutations.BorderTopWidth)
             {
                 isNewId = true;
                 baseStyle.BorderTopWidth = mutations.BorderTopWidth;
             }
 
-            if (!mutations.BorderBottomWidth.IsBase && baseStyle.BorderBottomWidth != mutations.BorderBottomWidth)
+            if (mutations.BorderBottomWidth.HasValue && baseStyle.BorderBottomWidth != mutations.BorderBottomWidth)
             {
                 isNewId = true;
                 baseStyle.BorderBottomWidth = mutations.BorderBottomWidth;
             }
 
-            if (!mutations.Font.IsBase && baseStyle.Font != mutations.Font)
+            if (mutations.Font.HasValue && baseStyle.Font != mutations.Font)
             {
                 isNewId = true;
                 baseStyle.Font = mutations.Font;
             }
 
-            if (!mutations.FontSize.IsBase && baseStyle.FontSize != mutations.FontSize)
+            if (mutations.FontSize.HasValue && baseStyle.FontSize != mutations.FontSize)
             {
                 isNewId = true;
                 baseStyle.FontSize = mutations.FontSize;
             }
 
-            if (!mutations.HAlign.IsBase && baseStyle.HAlign != mutations.HAlign)
+            if (mutations.HAlign.HasValue && baseStyle.HAlign != mutations.HAlign)
             {
                 isNewId = true;
                 baseStyle.HAlign = mutations.HAlign;
             }
 
-            if (!mutations.VAlign.IsBase && baseStyle.VAlign != mutations.VAlign)
+            if (mutations.VAlign.HasValue && baseStyle.VAlign != mutations.VAlign)
             {
                 isNewId = true;
                 baseStyle.VAlign = mutations.VAlign;
             }
 
-            if (!mutations.IsBold.IsBase && baseStyle.IsBold != mutations.IsBold)
+            if (mutations.IsBold.HasValue && baseStyle.IsBold != mutations.IsBold)
             {
                 isNewId = true;
                 baseStyle.IsBold = mutations.IsBold;
             }
 
-            if (!mutations.IsItalic.IsBase && baseStyle.IsItalic != mutations.IsItalic)
+            if (mutations.IsItalic.HasValue && baseStyle.IsItalic != mutations.IsItalic)
             {
                 isNewId = true;
                 baseStyle.IsItalic = mutations.IsItalic;
             }
 
-            if (!mutations.IsLineThrough.IsBase && baseStyle.IsLineThrough != mutations.IsLineThrough)
+            if (mutations.IsLineThrough.HasValue && baseStyle.IsLineThrough != mutations.IsLineThrough)
             {
                 isNewId = true;
                 baseStyle.IsLineThrough = mutations.IsLineThrough;
             }
 
-            if (!mutations.IsOverline.IsBase && baseStyle.IsOverline != mutations.IsOverline)
+            if (mutations.IsOverline.HasValue && baseStyle.IsOverline != mutations.IsOverline)
             {
                 isNewId = true;
                 baseStyle.IsOverline = mutations.IsOverline;
             }
 
-            if (!mutations.IsUnderline.IsBase && baseStyle.IsUnderline != mutations.IsUnderline)
+            if (mutations.IsUnderline.HasValue && baseStyle.IsUnderline != mutations.IsUnderline)
             {
                 isNewId = true;
                 baseStyle.IsUnderline = mutations.IsUnderline;
             }
 
-            if (!mutations.BorderBottomStyle.IsBase && baseStyle.BorderBottomStyle != mutations.BorderBottomStyle)
+            if (mutations.BorderBottomStyle.HasValue && baseStyle.BorderBottomStyle != mutations.BorderBottomStyle)
             {
                 isNewId = true;
                 baseStyle.BorderBottomStyle = mutations.BorderBottomStyle;
             }
 
-            if (!mutations.BorderLeftStyle.IsBase && baseStyle.BorderLeftStyle != mutations.BorderLeftStyle)
+            if (mutations.BorderLeftStyle.HasValue && baseStyle.BorderLeftStyle != mutations.BorderLeftStyle)
             {
                 isNewId = true;
                 baseStyle.BorderLeftStyle = mutations.BorderLeftStyle;
             }
 
-            if (!mutations.BorderRightStyle.IsBase && baseStyle.BorderRightStyle != mutations.BorderRightStyle)
+            if (mutations.BorderRightStyle.HasValue && baseStyle.BorderRightStyle != mutations.BorderRightStyle)
             {
                 isNewId = true;
                 baseStyle.BorderRightStyle = mutations.BorderRightStyle;
             }
 
-            if (!mutations.BorderTopStyle.IsBase && baseStyle.BorderTopStyle != mutations.BorderTopStyle)
+            if (mutations.BorderTopStyle.HasValue && baseStyle.BorderTopStyle != mutations.BorderTopStyle)
             {
                 isNewId = true;
                 baseStyle.BorderTopStyle = mutations.BorderTopStyle;

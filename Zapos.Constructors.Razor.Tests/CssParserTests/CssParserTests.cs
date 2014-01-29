@@ -15,7 +15,7 @@ namespace Zapos.Constructors.Razor.Tests.CssParserTests
         {
             var parser = new CssParser();
             var data = new StreamReader(@"Content\SimpleStyles.css").ReadToEnd();
-            var classes = parser.ParceCss(data);
+            var classes = CssParser.ParceCss(data);
 
             BaseStyle temp;
 

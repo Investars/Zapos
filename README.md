@@ -9,6 +9,7 @@ Page is formatted using ZCSS style sheets.
 
 Page structure includes 'style' and 'tables' tags. 
 The table has 'tbody' and 'thead' sections, which do not differ from the same sections in CSS.
+If page has several tables - each table will be created on a separate Excel sheet.
 
 #### Page example
 
@@ -45,10 +46,33 @@ The table has 'tbody' and 'thead' sections, which do not differ from the same se
         @{ var index = 1; }
         @foreach (var item in Model.Items)
         {
-            <tr class='@(index % 2 == 0 ? "" : "odd")'>
+            <tr>
                 <td>@item.Id</td>
                 <td class="name">@item.Name</td>
                 <td class="value">@item.Value</td>
+            </tr>
+
+            index++;
+        }
+    </tbody>
+</table>
+
+<table>
+    <thead class="head">
+        <tr>
+            <th style="width: 50px">Id</th>
+            <th style="width: 100px">First name</th>
+            <th class="value" style="width: 80px">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ index = 1; }
+        @foreach (var item in Model.Items)
+        {
+            <tr class='@(index % 2 == 0 ? "" : "odd")'>
+                <td>@item.Id</td>
+                <td class="name">@item.FirstName</td>
+                <td class="value">@item.Email</td>
             </tr>
 
             index++;
@@ -65,6 +89,8 @@ The table has 'tbody' and 'thead' sections, which do not differ from the same se
 * formula
 * title
 * number-format
+* colspan
+* rowspan
 
 #### 2. Styles:
 
@@ -114,15 +140,13 @@ How it works you've learnt from the below code example
 
     var model = GetModelForMyDocument();
 
-    var printerConfig = new Dictionary<string, object> { { "LICENSE_KEY", "FREE-LIMITED-KEY" } };
-	
     Func<string, string> pathConverter = HttpContext.Current.Server.MapPath;
 
     var constructorConfig = new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } };
 	
 	//main class takes 2 params: gridConstructor and printerFormat(Pdf or Xslx). 
 	//Constructor also takes 2 params: constructorConfig and printerConfig
-    var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, printerConfig);
+    var report = new Report<RazorGridConstructor, PdfPrinter>(constructorConfig, null);
 
     var path = Path.GetTempFileName();
 	

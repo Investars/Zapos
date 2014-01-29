@@ -8,7 +8,7 @@ namespace Zapos.Constructors.Razor.Parsers
 {
     public class CssParser
     {
-        public IDictionary<string, BaseStyle> ParceCss(string content)
+        public static IDictionary<string, BaseStyle> ParceCss(string content)
         {
             var parser = new StylesheetParser();
 

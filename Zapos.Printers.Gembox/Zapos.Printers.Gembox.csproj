@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GemBox.Spreadsheet">
-      <HintPath>..\packages\GemBox.Spreadsheet.37.3.30.1088\lib\net30\GemBox.Spreadsheet.dll</HintPath>
+      <HintPath>..\packages\GemBox.Spreadsheet.37.3.30.1099\lib\net30\GemBox.Spreadsheet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
