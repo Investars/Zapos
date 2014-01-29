@@ -8,17 +8,18 @@
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Constructors.Razor parse markup from razor .cshtml to abstract document model. Abstract model used on Printer.Gembox part of Zapos.</description>
-    <releaseNotes>Release Notes</releaseNotes>
-    <copyright>Copyright 2013</copyright>
-    <tags>Export Razor</tags>
-	<dependencies>
-		<dependency id="ExCSS" version="1.1.0" />
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2013-2014</copyright>
+    <tags>Export PDF XLSX XLS Excel Razor</tags>
+    <dependencies>
+      <dependency id="ExCSS" version="[1.1.0]" />
       <dependency id="Microsoft.AspNet.Razor" version="2.0.30506.0" />
       <dependency id="RazorEngine" version="3.3.0" />
       <dependency id="Zapos.Common" version="1.13.*" />
-	</dependencies>
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\Zapos.Constructors.Razor.dll" target="lib\net40\Zapos.Constructors.Razor.dll"/>
+    <file src="bin\Release\Zapos.Constructors.Razor.pdb" target="lib\net40\Zapos.Constructors.Razor.pdb"/>
   </files>
 </package>

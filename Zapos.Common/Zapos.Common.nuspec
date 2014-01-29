@@ -8,11 +8,12 @@
     <owners>Pavel Zaitsau; Alexander Belenkov</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Include base constructions of zapos, like abstract document styles or description of the document model.</description>
-    <releaseNotes>Release Notes</releaseNotes>
-    <copyright>Copyright 2013</copyright>
-    <tags>Export Razor</tags>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2013-2014</copyright>
+    <tags>Export PDF XLSX XLS Excel Razor</tags>
   </metadata>
   <files>
     <file src="bin\Release\Zapos.Common.dll" target="lib\net40\Zapos.Common.dll"/>
+    <file src="bin\Release\Zapos.Common.pdb" target="lib\net40\Zapos.Common.pdb"/>
   </files>
 </package>
