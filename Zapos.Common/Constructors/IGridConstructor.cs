@@ -7,6 +7,6 @@ namespace Zapos.Common.Constructors
     {
         void Init(IDictionary<string, object> config);
 
-        Table CreateTable<TModel>(string filePath, TModel model);
+        IEnumerable<Table> CreateTables<TModel>(string filePath, TModel model);
     }
 }

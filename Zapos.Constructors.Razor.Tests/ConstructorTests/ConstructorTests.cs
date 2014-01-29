@@ -29,7 +29,8 @@ namespace Zapos.Constructors.Razor.Tests.ConstructorTests
                 };
 
             var constructor = new RazorGridConstructor();
-            var table = constructor.CreateTable(@"Content\SimpleReport.cshtml", model);
+            var tables = constructor.CreateTables(@"Content\SimpleReport.cshtml", model);
+            var table = tables.First();
 
             Assert.IsNotNull(table.Head);
             Assert.IsNotNull(table.Body);
@@ -64,8 +65,8 @@ namespace Zapos.Constructors.Razor.Tests.ConstructorTests
 
             var constructor = new RazorGridConstructor();
             constructor.Init(new Dictionary<string, object> { { "RESOLVE_PATH_ACTION", pathConverter } });
-            var table = constructor.CreateTable(@"Content\SimpleReport.cshtml", model);
-
+            var tables = constructor.CreateTables(@"Content\SimpleReport.cshtml", model);
+            var table = tables.First();
 
             Assert.IsNotNull(table.Images);
             Assert.IsTrue(table.Images.Count() == 3);

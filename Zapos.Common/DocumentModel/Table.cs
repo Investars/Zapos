@@ -5,6 +5,8 @@ namespace Zapos.Common.DocumentModel
 {
     public class Table
     {
+        public string Name { get; set; }
+
         public IEnumerable<TableImage> Images { get; set; }
 
         public virtual TableBody Body { get; set; }
